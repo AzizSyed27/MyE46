@@ -1,0 +1,59 @@
+{
+    "frontBumper": [
+        { "id": "front_bumper_stock", "name": "Stock", "price": 0, "styleTags": ["oem", "stock"] },
+        { "id": "front_bumper_mtech1", "name": "M-Tech I", "price": 400, "styleTags": ["oem", "clean", "subtle"] },
+        { "id": "front_bumper_zhp", "name": "ZHP", "price": 400, "styleTags": ["aggressive", "sport"] },
+        { "id": "front_bumper_m3", "name": "M3", "price": 450, "styleTags": ["aggressive", "track", "m3"] }
+    ],
+    "frontLip": [
+        { "id": "none", "name": "None", "price": 0, "styleTags": ["oem", "stock", "clean"] },
+        { "id": "front_lip", "name": "Front Lip", "price": 220, "styleTags": ["aggressive", "sport", "track"] }
+    ],
+    "rearBumper": [
+        { "id": "rear_bumper_none", "name": "None", "price": 0, "styleTags": ["stock"] },
+        { "id": "rear_bumper_mtech2_single", "name": "M-Tech II (Single Exit)", "price": 480, "styleTags": ["oem", "clean", "subtle"] },
+        { "id": "rear_bumper_mtech2_dual", "name": "M-Tech II (Dual Exit)", "price": 550, "styleTags": ["aggressive", "sport"] },
+        { "id": "rear_bumper_m3", "name": "M3", "price": 500, "styleTags": ["aggressive", "track", "m3"] }
+    ],
+    "wheels": [
+        { "id": "rim_bbs_chr", "name": "BBS CH-R", "price": 2200, "styleTags": ["clean", "premium", "street"] },
+        { "id": "rim_style_37", "name": "Style 37 (M-Parallel)", "price": 1400, "styleTags": ["oem", "classic"] },
+        { "id": "rim_style_119", "name": "Style 119", "price": 1600, "styleTags": ["oem", "clean"] },
+        { "id": "rim_style_135", "name": "Style 135 (M-Spider)", "price": 1800, "styleTags": ["sport", "aggressive"] },
+        { "id": "rim_style_166", "name": "Style 166 (Competition)", "price": 2400, "styleTags": ["track", "aggressive", "m3"] }
+    ],
+    "sideVents": [
+        { "id": "none", "name": "None", "price": 0, "styleTags": ["oem", "stock", "clean"] },
+        { "id": "m_side_vents", "name": "M Side Vents", "price": 350, "styleTags": ["aggressive", "track", "m3"] }
+    ],
+    "headlights": [
+        { "id": "stock", "name": "Stock", "price": 0, "styleTags": ["oem", "stock"] },
+        { "id": "projectors", "name": "Projector Retrofit", "price": 0, "styleTags": ["clean", "aggressive", "track"] }
+    ],
+    "mirrors": [
+        { "id": "stock", "name": "Stock", "price": 0, "styleTags": ["oem", "stock"] },
+        { "id": "m3", "name": "M3 Mirrors", "price": 380, "styleTags": ["aggressive", "track", "m3", "clean"] }
+    ],
+    "spoiler": [
+        { "id": "none", "name": "None", "price": 0, "styleTags": ["stock"] },
+        { "id": "spoiler_stock", "name": "OEM Lip Spoiler", "price": 100, "styleTags": ["oem", "subtle", "clean"] },
+        { "id": "spoiler_roof", "name": "Roof Spoiler", "price": 180, "styleTags": ["clean", "subtle"] },
+        { "id": "spoiler_ducktail", "name": "Ducktail Spoiler", "price": 320, "styleTags": ["aggressive", "track", "sport"] }
+    ],
+    "roof": [
+        { "id": "roof", "name": "Standard Roof", "price": 0, "styleTags": ["oem", "stock"] },
+        { "id": "roof_sun", "name": "Sunroof", "price": 0, "styleTags": ["oem", "clean"] }
+    ],
+    "badge": [
+        { "id": "badge_318i", "name": "318i", "price": 0, "styleTags": [] },
+        { "id": "badge_320d", "name": "320d", "price": 0, "styleTags": [] },
+        { "id": "badge_320i", "name": "320i", "price": 0, "styleTags": [] },
+        { "id": "badge_325i", "name": "325i", "price": 0, "styleTags": [] },
+        { "id": "badge_325xi", "name": "325xi", "price": 0, "styleTags": [] },
+        { "id": "badge_330d", "name": "330d", "price": 0, "styleTags": [] },
+        { "id": "badge_330dx", "name": "330dx", "price": 0, "styleTags": [] },
+        { "id": "badge_330i", "name": "330i", "price": 0, "styleTags": [] },
+        { "id": "badge_330xi", "name": "330xi", "price": 0, "styleTags": [] },
+        { "id": "badge_m3", "name": "M3", "price": 0, "styleTags": ["m3", "aggressive", "track"] }
+    ]
+}

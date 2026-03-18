@@ -1,0 +1,181 @@
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
+import type { BuildConfig } from '../types'
+import mods from '../data/mods.json'
+
+/** Default values for a fresh build */
+export const DEFAULT_CONFIG: Omit<BuildConfig, 'id' | 'name' | 'notes' | 'createdAt' | 'updatedAt'> = {
+    paintColor: '#a8a8a8',
+    rimColor: '#a8a8a8',
+    frontBumper: 'front_bumper_stock',
+    frontLip: 'none',
+    rearBumper: 'rear_bumper_mtech2_single',
+    wheels: 'rim_bbs_chr',
+    headlights: 'stock',
+    sideVents: 'none',
+    mirrors: 'stock',
+    spoiler: 'spoiler_stock',
+    roof: 'roof',
+    badge: 'badge_330i',
+    rideHeight: 0,
+}
+
+type SlotKey = keyof typeof DEFAULT_CONFIG
+
+interface BuildStore {
+    // Current build state
+    paintColor: string
+    rimColor: string
+    frontBumper: string
+    frontLip: string
+    rearBumper: string
+    wheels: string
+    headlights: string
+    sideVents: string
+    mirrors: string
+    spoiler: string
+    roof: string
+    badge: string
+    rideHeight: number
+
+    // Saved builds
+    savedBuilds: BuildConfig[]
+
+    // Actions — individual slot setters
+    setSlot: (key: SlotKey, value: string | number) => void
+
+    // Actions — preset / bulk apply (used by presets + future AI co-pilot)
+    applyPreset: (partial: Partial<Omit<BuildConfig, 'id' | 'name' | 'notes' | 'createdAt' | 'updatedAt'>>) => void
+
+    // Actions — reset to defaults
+    resetBuild: () => void
+
+    // Actions — saved build CRUD
+    saveBuild: (name: string, notes?: string) => string
+    deleteBuild: (id: string) => void
+    loadBuild: (id: string) => void
+    updateBuild: (id: string, updates: Partial<Pick<BuildConfig, 'name' | 'notes'>>) => void
+
+    // Computed
+    getTotalPrice: () => number
+}
+
+/** Look up the price of a part by slot and id */
+function getPartPrice(slot: string, id: string): number {
+    const catalog = mods[slot as keyof typeof mods] as Array<{ id: string; price: number }> | undefined
+    if (!catalog) return 0
+    const part = catalog.find((p) => p.id === id)
+    return part?.price ?? 0
+}
+
+/** Generate a simple unique id */
+function generateId(): string {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 8)
+}
+
+export const useBuildStore = create<BuildStore>()(
+    persist(
+        (set, get) => ({
+        // Initial state from defaults
+        ...DEFAULT_CONFIG,
+
+        savedBuilds: [],
+
+        setSlot: (key, value) => {
+            set({ [key]: value })
+        },
+
+        applyPreset: (partial) => {
+            set({ ...partial })
+        },
+
+        resetBuild: () => {
+            set({ ...DEFAULT_CONFIG })
+        },
+
+        saveBuild: (name, notes = '') => {
+            const state = get()
+            const now = new Date().toISOString()
+            const id = generateId()
+
+            const build: BuildConfig = {
+            id,
+            name,
+            notes,
+            paintColor: state.paintColor,
+            rimColor: state.rimColor,
+            frontBumper: state.frontBumper,
+            frontLip: state.frontLip,
+            rearBumper: state.rearBumper,
+            wheels: state.wheels,
+            headlights: state.headlights,
+            sideVents: state.sideVents,
+            mirrors: state.mirrors,
+            spoiler: state.spoiler,
+            roof: state.roof,
+            badge: state.badge,
+            rideHeight: state.rideHeight,
+            createdAt: now,
+            updatedAt: now,
+            }
+
+            set({ savedBuilds: [...state.savedBuilds, build] })
+            return id
+        },
+
+        deleteBuild: (id) => {
+            set({ savedBuilds: get().savedBuilds.filter((b) => b.id !== id) })
+        },
+
+        loadBuild: (id) => {
+            const build = get().savedBuilds.find((b) => b.id === id)
+            if (!build) return
+
+            set({
+            paintColor: build.paintColor,
+            rimColor: build.rimColor,
+            frontBumper: build.frontBumper,
+            frontLip: build.frontLip,
+            rearBumper: build.rearBumper,
+            wheels: build.wheels,
+            headlights: build.headlights,
+            sideVents: build.sideVents,
+            mirrors: build.mirrors,
+            spoiler: build.spoiler,
+            roof: build.roof,
+            badge: build.badge,
+            rideHeight: build.rideHeight,
+            })
+        },
+
+        updateBuild: (id, updates) => {
+            set({
+            savedBuilds: get().savedBuilds.map((b) =>
+                b.id === id
+                ? { ...b, ...updates, updatedAt: new Date().toISOString() }
+                : b
+            ),
+            })
+        },
+
+        getTotalPrice: () => {
+            const state = get()
+            return (
+            getPartPrice('frontBumper', state.frontBumper) +
+            getPartPrice('frontLip', state.frontLip) +
+            getPartPrice('rearBumper', state.rearBumper) +
+            getPartPrice('wheels', state.wheels) +
+            getPartPrice('sideVents', state.sideVents) +
+            getPartPrice('headlights', state.headlights) +
+            getPartPrice('mirrors', state.mirrors) +
+            getPartPrice('spoiler', state.spoiler) +
+            getPartPrice('roof', state.roof) +
+            getPartPrice('badge', state.badge)
+            )
+        },
+        }),
+        {
+        name: 'mye46-build-storage',
+        }
+    )
+)
