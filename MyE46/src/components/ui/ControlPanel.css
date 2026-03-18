@@ -1,0 +1,11 @@
+.control-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.control-panel-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

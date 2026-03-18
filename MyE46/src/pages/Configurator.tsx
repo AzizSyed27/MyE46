@@ -1,4 +1,5 @@
 import Experience from '../components/scene/Experience'
+import ControlPanel from '../components/ui/ControlPanel'
 import './Configurator.css'
 
 export default function Configurator() {
@@ -11,10 +12,7 @@ export default function Configurator() {
       </div>
 
       <aside className="configurator-panel">
-        {/* UI control panels will be built in a later step */}
-        <div className="configurator-panel-placeholder">
-          <p>Controls Panel</p>
-        </div>
+        <ControlPanel />
       </aside>
     </div>
   )
