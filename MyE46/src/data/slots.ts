@@ -143,11 +143,9 @@ export const ALWAYS_VISIBLE: string[] = [
     'quarter_panel',
     'radiator',
     'rear_left_door',
-    'rear_left_taillight',
     'rear_left_trim',
     'rear_left_window',
     'rear_right_door',
-    'rear_right_taillight',
     'rear_right_trim',
     'rear_right_window',
     'rear_seat',
@@ -190,7 +188,14 @@ export const PAINT_TARGET_NODES: string[] = [
     'right_mirror_stock',
     'left_mirror_m3',
     'right_mirror_m3',
+    'right_headlight_under',
+    'left_headlight_under',
 ]
+
+/**
+ * SECONDARY_PAINT_TARGET_NODES — every node that receives secondary body paint color.
+ */
+
 
 /**
  * Material name substrings used to identify body paint materials.
