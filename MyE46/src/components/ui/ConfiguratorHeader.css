@@ -34,6 +34,16 @@
   letter-spacing: 0.02em;
 }
 
+.configurator-header-shared-badge {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface-alt);
+  padding: 2px var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .configurator-header-actions {
   display: flex;
   align-items: center;
@@ -69,8 +79,7 @@
 }
 
 .configurator-header-btn--secondary:hover {
-  color: var(--color-danger);
-  background-color: var(--color-surface-alt);
+  color: var(--color-text);
 }
 
 .configurator-header-btn--primary {

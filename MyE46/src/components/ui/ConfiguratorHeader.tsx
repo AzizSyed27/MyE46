@@ -2,10 +2,16 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useBuildStore } from '../../store/buildStore'
 import SaveBuildModal from './SaveBuildModal'
+import ShareBuildModal from './ShareBuildModal'
 import './ConfiguratorHeader.css'
 
-export default function ConfiguratorHeader() {
+interface ConfiguratorHeaderProps {
+  isSharedBuild?: boolean
+}
+
+export default function ConfiguratorHeader({ isSharedBuild = false }: ConfiguratorHeaderProps) {
   const [showSaveModal, setShowSaveModal] = useState(false)
+  const [showShareModal, setShowShareModal] = useState(false)
   const resetBuild = useBuildStore((s) => s.resetBuild)
   const total = useBuildStore((s) => s.getTotalPrice())
 
@@ -18,6 +24,11 @@ export default function ConfiguratorHeader() {
           <span className="configurator-header-total">
             ${total.toLocaleString('en-US')}
           </span>
+          {isSharedBuild && (
+            <span className="configurator-header-shared-badge">
+              Shared Build
+            </span>
+          )}
         </div>
 
         <nav className="configurator-header-actions">
@@ -34,16 +45,25 @@ export default function ConfiguratorHeader() {
             Reset
           </button>
           <button
+            className="configurator-header-btn configurator-header-btn--secondary"
+            onClick={() => setShowShareModal(true)}
+          >
+            Share
+          </button>
+          <button
             className="configurator-header-btn configurator-header-btn--primary"
             onClick={() => setShowSaveModal(true)}
           >
-            Save Build
+            {isSharedBuild ? 'Clone to My Builds' : 'Save Build'}
           </button>
         </nav>
       </header>
 
       {showSaveModal && (
         <SaveBuildModal onClose={() => setShowSaveModal(false)} />
+      )}
+      {showShareModal && (
+        <ShareBuildModal onClose={() => setShowShareModal(false)} />
       )}
     </>
   )
