@@ -2,7 +2,9 @@ export interface BuildConfig {
     id: string
     name: string
     paintColor: string
+    secondaryColor: string
     rimColor: string
+    interiorColor: string
     frontBumper: string
     frontLip: string
     rearBumper: string
@@ -13,6 +15,7 @@ export interface BuildConfig {
     spoiler: string
     roof: string
     badge: string
+    windowTint: string
     rideHeight: number
     notes: string
     createdAt: string

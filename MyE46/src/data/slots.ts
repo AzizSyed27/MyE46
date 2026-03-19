@@ -3,12 +3,7 @@
  * Key = slot name, Value = array of all possible node names for that slot.
  */
 export const SINGLE_SLOTS: Record<string, string[]> = {
-    frontBumper: [
-        'front_bumper_stock',
-        'front_bumper_mtech1',
-        'front_bumper_zhp',
-        'front_bumper_m3',
-    ],
+
     frontLip: ['front_lip'],
     spoiler: ['spoiler_stock', 'spoiler_roof', 'spoiler_ducktail'],
     roof: ['roof', 'roof_sun'],
@@ -31,8 +26,14 @@ export const SINGLE_SLOTS: Record<string, string[]> = {
  * Key format: "slotName.optionId"
  */
 export const PAIRED_SLOTS: Record<string, string[]> = {
+    // frontBumper options
+    'frontBumper.front_bumper_stock': ['front_bumper_stock', 'front_bumper_stock_trim'],
+    'frontBumper.front_bumper_mtech1': ['front_bumper_mtech1', 'front_bumper_mtech1_trim'],
+    'frontBumper.front_bumper_zhp': ['front_bumper_zhp', 'front_bumper_zhp_trim'],
+    'frontBumper.front_bumper_m3': ['front_bumper_m3', 'front_bumper_m3_trim'],
+
     // rearBumper options
-    'rearBumper.rear_bumper_none': ['rear_bumper_none'],
+    'rearBumper.rear_bumper_none': ['rear_bumper_none', 'rear_bumper_none_trim'],
     'rearBumper.rear_bumper_mtech2_single': [
         'rear_bumper_mtech2',
         'rear_bumper_mtech2_single_exhaust',
@@ -91,6 +92,21 @@ export const QUAD_SLOTS: Record<string, string[]> = {
 }
 
 /**
+ * ALL_FRONT_BUMPER_NODES — every node involved in any front bumper option.
+ * Used to hide all before showing the selected option.
+ */
+export const ALL_FRONT_BUMPER_NODES: string[] = [
+  'front_bumper_stock',
+  'front_bumper_stock_trim',
+  'front_bumper_mtech1',
+  'front_bumper_mtech1_trim',
+  'front_bumper_zhp',
+  'front_bumper_zhp_trim',
+  'front_bumper_m3',
+  'front_bumper_m3_trim',
+]
+
+/**
  * ALL_REAR_BUMPER_NODES — every node involved in any rear bumper option.
  * Used to hide all before showing the selected option.
  */
@@ -143,9 +159,11 @@ export const ALWAYS_VISIBLE: string[] = [
     'quarter_panel',
     'radiator',
     'rear_left_door',
+    'rear_left_taillight',
     'rear_left_trim',
     'rear_left_window',
     'rear_right_door',
+    'rear_right_taillight',
     'rear_right_trim',
     'rear_right_window',
     'rear_seat',
@@ -161,7 +179,7 @@ export const ALWAYS_VISIBLE: string[] = [
 ]
 
 /**
- * PAINT_TARGET_NODES — every node that receives body paint color.
+ * PAINT_TARGET_NODES — every node that receives primary body paint color.
  */
 export const PAINT_TARGET_NODES: string[] = [
     'hood',
@@ -188,14 +206,70 @@ export const PAINT_TARGET_NODES: string[] = [
     'right_mirror_stock',
     'left_mirror_m3',
     'right_mirror_m3',
-    'right_headlight_under',
     'left_headlight_under',
+    'right_headlight_under',
 ]
 
 /**
- * SECONDARY_PAINT_TARGET_NODES — every node that receives secondary body paint color.
+ * SECONDARY_COLOR_NODES — exterior trim/accent nodes that receive
+ * the secondary body color (lips, trim pieces, grills, spoilers).
  */
+export const SECONDARY_COLOR_NODES: string[] = [
+    'front_lip',
+    'front_bumper_stock_trim',
+    'front_bumper_mtech1_trim',
+    'front_bumper_zhp_trim',
+    'front_bumper_m3_trim',
+    'rear_bumper_mtech2_single_exhaust',
+    'rear_bumper_mtech2_dual_exhaust',
+    'rear_bumper_none_trim',
+    'exterior_trim',
+    'spoiler_ducktail',
+    'spoiler_roof',
+    'spoiler_stock',
+    'kidney_grills',
+]
 
+/**
+ * INTERIOR_TRIM_NODES — cabin surfaces that receive interior trim color.
+ */
+export const INTERIOR_TRIM_NODES: string[] = [
+    'dash',
+    'front_left_seat',
+    'front_left_trim',
+    'front_right_seat',
+    'front_right_door_trim',
+    'rear_left_trim',
+    'rear_right_trim',
+    'rear_seat',
+    'inner_trim',
+]
+
+/**
+ * WINDOW_TINT_NODES — all glass panels that receive window tint.
+ */
+export const WINDOW_TINT_NODES: string[] = [
+    'front_left_window',
+    'front_right_window',
+    'front_window',
+    'rear_left_window',
+    'rear_right_window',
+    'rear_window',
+]
+
+/**
+ * TINT_LEVELS — maps tint ID to Three.js material values.
+ * VLT = Visible Light Transmission. Lower VLT = darker tint.
+ * "none" uses the base glass fix values (clear).
+ */
+export const TINT_LEVELS: Record<string, { opacity: number; color: string }> = {
+    none:  { opacity: 0.18, color: '#cccccc' },
+    '70':  { opacity: 0.28, color: '#555555' },
+    '50':  { opacity: 0.38, color: '#333333' },
+    '35':  { opacity: 0.50, color: '#222222' },
+    '15':  { opacity: 0.65, color: '#111111' },
+    '5':   { opacity: 0.78, color: '#0a0a0a' },
+}
 
 /**
  * Material name substrings used to identify body paint materials.

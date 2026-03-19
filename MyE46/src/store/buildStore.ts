@@ -6,7 +6,9 @@ import mods from '../data/mods.json'
 /** Default values for a fresh build */
 export const DEFAULT_CONFIG: Omit<BuildConfig, 'id' | 'name' | 'notes' | 'createdAt' | 'updatedAt'> = {
     paintColor: '#a8a8a8',
+    secondaryColor: '#1a1a1a',
     rimColor: '#a8a8a8',
+    interiorColor: '#1a1a1a',
     frontBumper: 'front_bumper_stock',
     frontLip: 'none',
     rearBumper: 'rear_bumper_mtech2_single',
@@ -17,6 +19,7 @@ export const DEFAULT_CONFIG: Omit<BuildConfig, 'id' | 'name' | 'notes' | 'create
     spoiler: 'spoiler_stock',
     roof: 'roof',
     badge: 'badge_330i',
+    windowTint: 'none',
     rideHeight: 0,
 }
 
@@ -25,7 +28,9 @@ type SlotKey = keyof typeof DEFAULT_CONFIG
 interface BuildStore {
     // Current build state
     paintColor: string
+    secondaryColor: string
     rimColor: string
+    interiorColor: string
     frontBumper: string
     frontLip: string
     rearBumper: string
@@ -36,6 +41,7 @@ interface BuildStore {
     spoiler: string
     roof: string
     badge: string
+    windowTint: string
     rideHeight: number
 
     // Saved builds
@@ -103,7 +109,9 @@ export const useBuildStore = create<BuildStore>()(
             name,
             notes,
             paintColor: state.paintColor,
+            secondaryColor: state.secondaryColor,
             rimColor: state.rimColor,
+            interiorColor: state.interiorColor,
             frontBumper: state.frontBumper,
             frontLip: state.frontLip,
             rearBumper: state.rearBumper,
@@ -114,6 +122,7 @@ export const useBuildStore = create<BuildStore>()(
             spoiler: state.spoiler,
             roof: state.roof,
             badge: state.badge,
+            windowTint: state.windowTint,
             rideHeight: state.rideHeight,
             createdAt: now,
             updatedAt: now,
@@ -133,7 +142,9 @@ export const useBuildStore = create<BuildStore>()(
 
             set({
             paintColor: build.paintColor,
+            secondaryColor: build.secondaryColor,
             rimColor: build.rimColor,
+            interiorColor: build.interiorColor,
             frontBumper: build.frontBumper,
             frontLip: build.frontLip,
             rearBumper: build.rearBumper,
@@ -144,6 +155,7 @@ export const useBuildStore = create<BuildStore>()(
             spoiler: build.spoiler,
             roof: build.roof,
             badge: build.badge,
+            windowTint: build.windowTint,
             rideHeight: build.rideHeight,
             })
         },
@@ -170,12 +182,13 @@ export const useBuildStore = create<BuildStore>()(
             getPartPrice('mirrors', state.mirrors) +
             getPartPrice('spoiler', state.spoiler) +
             getPartPrice('roof', state.roof) +
-            getPartPrice('badge', state.badge)
+            getPartPrice('badge', state.badge) +
+            getPartPrice('windowTint', state.windowTint)
             )
         },
         }),
         {
-        name: 'mye46-build-storage',
+            name: 'mye46-build-storage',
         }
     )
 )

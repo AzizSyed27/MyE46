@@ -7,10 +7,15 @@ import {
   PAIRED_SLOTS,
   QUAD_SLOTS,
   ALWAYS_VISIBLE,
+  ALL_FRONT_BUMPER_NODES,
   ALL_REAR_BUMPER_NODES,
   ALL_MIRROR_NODES,
   ALL_SIDE_VENT_NODES,
   PAINT_TARGET_NODES,
+  SECONDARY_COLOR_NODES,
+  INTERIOR_TRIM_NODES,
+  WINDOW_TINT_NODES,
+  TINT_LEVELS,
   BODY_MATERIAL_NAMES,
   RIM_MATERIAL_NAMES,
 } from '../../data/slots'
@@ -25,17 +30,14 @@ function materialMatches(materialName: string, targets: string[]): boolean {
 function getAllTogglableNames(): Set<string> {
   const names = new Set<string>()
 
-  // Single slots
   for (const nodes of Object.values(SINGLE_SLOTS)) {
     nodes.forEach((n) => names.add(n))
   }
 
-  // Paired slots — collect all individual node names
   for (const nodes of Object.values(PAIRED_SLOTS)) {
     nodes.forEach((n) => names.add(n))
   }
 
-  // Quad slots
   for (const nodes of Object.values(QUAD_SLOTS)) {
     nodes.forEach((n) => names.add(n))
   }
@@ -59,26 +61,25 @@ function getVisibleNodes(state: {
   const visible = new Set<string>()
 
   // --- Single slots ---
-  // frontBumper: show the one that matches
-  visible.add(state.frontBumper)
-
-  // frontLip: visible only if not 'none'
   if (state.frontLip !== 'none') {
     visible.add('front_lip')
   }
 
-  // spoiler: visible only if not 'none'
   if (state.spoiler !== 'none') {
     visible.add(state.spoiler)
   }
 
-  // roof: always one visible
   visible.add(state.roof)
-
-  // badge: always one visible
   visible.add(state.badge)
 
   // --- Paired slots ---
+  // frontBumper
+  const frontKey = `frontBumper.${state.frontBumper}`
+  const frontNodes = PAIRED_SLOTS[frontKey]
+  if (frontNodes) {
+    frontNodes.forEach((n) => visible.add(n))
+  }
+  
   // rearBumper
   const rearKey = `rearBumper.${state.rearBumper}`
   const rearNodes = PAIRED_SLOTS[rearKey]
@@ -111,8 +112,9 @@ function getVisibleNodes(state: {
   return visible
 }
 
-/** All node names involved in any rear bumper, mirror, or side vent option */
+/** All node names involved in any paired/grouped option */
 const ALL_PAIRED_NODES = new Set<string>([
+  ...ALL_FRONT_BUMPER_NODES,
   ...ALL_REAR_BUMPER_NODES,
   ...ALL_MIRROR_NODES,
   ...ALL_SIDE_VENT_NODES,
@@ -135,13 +137,14 @@ export default function E46Model() {
   const mirrors = useBuildStore((s) => s.mirrors)
   const headlights = useBuildStore((s) => s.headlights)
   const paintColor = useBuildStore((s) => s.paintColor)
+  const secondaryColor = useBuildStore((s) => s.secondaryColor)
   const rimColor = useBuildStore((s) => s.rimColor)
+  const interiorColor = useBuildStore((s) => s.interiorColor)
+  const windowTint = useBuildStore((s) => s.windowTint)
   const rideHeight = useBuildStore((s) => s.rideHeight)
 
-  // Pre-compute the full set of togglable node names (stable across renders)
   const togglableNames = useMemo(() => getAllTogglableNames(), [])
 
-  // Build a flat lookup of all scene nodes by name
   const nodeMap = useMemo(() => {
     const map = new Map<string, Object3D>()
     scene.traverse((child) => {
@@ -189,14 +192,12 @@ export default function E46Model() {
       headlights,
     })
 
-    // Traverse all nodes — toggle only those in the togglable set
     for (const [name, node] of nodeMap) {
       if (togglableNames.has(name) || ALL_PAIRED_NODES.has(name)) {
         node.visible = visibleSet.has(name)
       }
     }
 
-    // Always-visible nodes stay visible
     for (const name of ALWAYS_VISIBLE) {
       const node = nodeMap.get(name)
       if (node) node.visible = true
@@ -216,16 +217,13 @@ export default function E46Model() {
     togglableNames,
   ])
 
-  // --- Paint color ---
+  // --- Primary paint color ---
   useEffect(() => {
     for (const nodeName of PAINT_TARGET_NODES) {
       const node = nodeMap.get(nodeName)
       if (!node) continue
       node.traverse((child) => {
-        if (
-          (child as Mesh).isMesh &&
-          (child as Mesh).material
-        ) {
+        if ((child as Mesh).isMesh && (child as Mesh).material) {
           const mesh = child as Mesh
           const mat = mesh.material as MeshStandardMaterial
           if (mat.name && materialMatches(mat.name, BODY_MATERIAL_NAMES)) {
@@ -238,19 +236,46 @@ export default function E46Model() {
     }
   }, [paintColor, nodeMap])
 
+  // --- Secondary body color (trim / accents) ---
+  useEffect(() => {
+    for (const nodeName of SECONDARY_COLOR_NODES) {
+      const node = nodeMap.get(nodeName)
+      if (!node) continue
+      node.traverse((child) => {
+        if ((child as Mesh).isMesh && (child as Mesh).material) {
+          const mesh = child as Mesh
+          const mat = (mesh.material as MeshStandardMaterial).clone()
+          mat.color.set(secondaryColor)
+          mesh.material = mat
+        }
+      })
+    }
+  }, [secondaryColor, nodeMap])
+
+  // --- Interior trim color ---
+  useEffect(() => {
+    for (const nodeName of INTERIOR_TRIM_NODES) {
+      const node = nodeMap.get(nodeName)
+      if (!node) continue
+      node.traverse((child) => {
+        if ((child as Mesh).isMesh && (child as Mesh).material) {
+          const mesh = child as Mesh
+          const mat = (mesh.material as MeshStandardMaterial).clone()
+          mat.color.set(interiorColor)
+          mesh.material = mat
+        }
+      })
+    }
+  }, [interiorColor, nodeMap])
+
   // --- Rim color ---
   useEffect(() => {
-    // Apply to all wheel nodes (all styles), not just visible ones,
-    // so color is correct when switching wheel styles
     for (const nodes of Object.values(QUAD_SLOTS)) {
       for (const nodeName of nodes) {
         const node = nodeMap.get(nodeName)
         if (!node) continue
         node.traverse((child) => {
-          if (
-            (child as Mesh).isMesh &&
-            (child as Mesh).material
-          ) {
+          if ((child as Mesh).isMesh && (child as Mesh).material) {
             const mesh = child as Mesh
             const mat = mesh.material as MeshStandardMaterial
             if (mat.name && materialMatches(mat.name, RIM_MATERIAL_NAMES)) {
@@ -263,6 +288,33 @@ export default function E46Model() {
       }
     }
   }, [rimColor, nodeMap])
+
+  // --- Window tint ---
+  useEffect(() => {
+    const tint = TINT_LEVELS[windowTint] ?? TINT_LEVELS['none']
+
+    for (const nodeName of WINDOW_TINT_NODES) {
+      const node = nodeMap.get(nodeName)
+      if (!node) continue
+      node.traverse((child) => {
+        if (
+          (child as Mesh).isMesh &&
+          (child as Mesh).material &&
+          ((child as Mesh).material as MeshStandardMaterial).name?.toLowerCase().includes('e46racing_glass')
+        ) {
+          const mesh = child as Mesh
+          const mat = (mesh.material as MeshStandardMaterial).clone()
+          mat.transparent = true
+          mat.opacity = tint.opacity
+          mat.color.set(tint.color)
+          mat.roughness = 0
+          mat.metalness = 0.1
+          mesh.renderOrder = 1
+          mesh.material = mat
+        }
+      })
+    }
+  }, [windowTint, nodeMap])
 
   // --- Ride height ---
   useEffect(() => {
@@ -278,5 +330,4 @@ export default function E46Model() {
   )
 }
 
-// Preload the model so it starts downloading before the component mounts
 useGLTF.preload('/models/e46.glb')

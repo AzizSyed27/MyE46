@@ -2,7 +2,7 @@ import { useBuildStore } from '../../store/buildStore'
 import './ColorPicker.css'
 
 interface ColorPickerProps {
-  slot: 'paintColor' | 'rimColor'
+  slot: 'paintColor' | 'rimColor' | 'interiorColor' | 'secondaryColor'
   label: string
   swatches: { name: string; hex: string }[]
 }

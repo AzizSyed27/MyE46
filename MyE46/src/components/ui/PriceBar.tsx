@@ -2,8 +2,7 @@ import { useBuildStore } from '../../store/buildStore'
 import './PriceBar.css'
 
 export default function PriceBar() {
-  const getTotalPrice = useBuildStore((s) => s.getTotalPrice)
-  const total = getTotalPrice()
+  const total = useBuildStore((s) => s.getTotalPrice())
 
   return (
     <div className="price-bar">

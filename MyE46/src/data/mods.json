@@ -55,5 +55,13 @@
         { "id": "badge_330i", "name": "330i", "price": 0, "styleTags": [] },
         { "id": "badge_330xi", "name": "330xi", "price": 0, "styleTags": [] },
         { "id": "badge_m3", "name": "M3", "price": 0, "styleTags": ["m3", "aggressive", "track"] }
+    ],
+    "windowTint": [
+        { "id": "none", "name": "No Tint", "price": 0, "styleTags": ["oem", "stock"] },
+        { "id": "70", "name": "70% VLT (Light)", "price": 400, "styleTags": ["clean", "subtle"] },
+        { "id": "50", "name": "50% VLT (Medium)", "price": 400, "styleTags": ["clean", "sport"] },
+        { "id": "35", "name": "35% VLT (Dark)", "price": 400, "styleTags": ["aggressive", "sport", "clean"] },
+        { "id": "15", "name": "15% VLT (Very Dark)", "price": 400, "styleTags": ["aggressive", "track"] },
+        { "id": "5", "name": "5% VLT (Limo)", "price": 400, "styleTags": ["aggressive", "track", "street"] }
     ]
 }
