@@ -1,0 +1,111 @@
+.compare-table-wrapper {
+  overflow-x: auto;
+}
+
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.compare-table-th {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-md);
+  font-weight: 400;
+  color: var(--color-text);
+  text-align: left;
+  border-bottom: 2px solid var(--color-border);
+  letter-spacing: 0.02em;
+}
+
+.compare-table-th--label {
+  width: 180px;
+}
+
+.compare-table-label {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-muted);
+  letter-spacing: 0.02em;
+  vertical-align: middle;
+}
+
+.compare-table-cell {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  vertical-align: middle;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.compare-table-row--diff {
+  background-color: rgba(200, 169, 110, 0.06);
+}
+
+.compare-table-row--diff .compare-table-label {
+  border-left: 3px solid var(--color-accent);
+}
+
+.compare-table-color-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.compare-table-swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.compare-table-hex {
+  font-size: var(--font-size-xs);
+  font-family: monospace;
+  color: var(--color-muted);
+}
+
+.compare-table-part-name {
+  display: block;
+  color: var(--color-text);
+}
+
+.compare-table-part-price {
+  display: block;
+  font-size: var(--font-size-xs);
+  color: var(--color-accent);
+  margin-top: 2px;
+}
+
+.compare-table-total-row .compare-table-label,
+.compare-table-total-row .compare-table-cell {
+  border-bottom: none;
+  border-top: 2px solid var(--color-border);
+  padding-top: var(--spacing-md);
+}
+
+.compare-table-total {
+  font-size: var(--font-size-lg);
+  color: var(--color-accent);
+  letter-spacing: 0.02em;
+}
+
+.compare-table-diff {
+  display: inline-block;
+  font-size: var(--font-size-xs);
+  padding: 2px var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  margin-left: var(--spacing-sm);
+  letter-spacing: 0.02em;
+}
+
+.compare-table-diff--more {
+  color: var(--color-danger);
+  background-color: rgba(192, 57, 43, 0.1);
+}
+
+.compare-table-diff--less {
+  color: var(--color-success);
+  background-color: rgba(39, 174, 96, 0.1);
+}
