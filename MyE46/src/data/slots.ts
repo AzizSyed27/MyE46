@@ -140,6 +140,7 @@ export const ALL_SIDE_VENT_NODES: string[] = [
  * ALWAYS_VISIBLE — nodes that are never toggled off.
  */
 export const ALWAYS_VISIBLE: string[] = [
+    'calipers',
     'dash',
     'e46racing_diff_46',
     'front_left_door',
@@ -246,6 +247,14 @@ export const INTERIOR_TRIM_NODES: string[] = [
 ]
 
 /**
+ * CALIPER_NODES — the caliper node(s) that receive caliper color.
+ */
+
+export const CALIPER_NODES: string[] = [
+  'calipers',
+]
+
+/**
  * WINDOW_TINT_NODES — all glass panels that receive window tint.
  */
 export const WINDOW_TINT_NODES: string[] = [
@@ -289,4 +298,40 @@ export const RIM_MATERIAL_NAMES: string[] = [
     'e46racing_wheel2',
     'e46racing_wheel3',
     'e46racing_wheel_5',
+]
+
+/**
+ * RIDE_HEIGHT_FIXED_NODES — nodes that stay at ground level when ride height
+ * changes. The body drops but these stay planted. Includes all tires, all rim
+ * variants across every wheel style, and calipers.
+ */
+export const RIDE_HEIGHT_FIXED_NODES: string[] = [
+  // Tires
+  'tire_front_left',
+  'tire_front_right',
+  'tire_rear_left',
+  'tire_rear_right',
+  // Calipers
+  'calipers',
+  // All rim variants (every style, every corner)
+  'rim_bbs_chr_front_left',
+  'rim_bbs_chr_front_right',
+  'rim_bbs_chr_rear_left',
+  'rim_bbs_chr_rear_right',
+  'rim_style_37_front_left',
+  'rim_style_37_front_right',
+  'rim_style_37_rear_left',
+  'rim_style_37_rear_right',
+  'rim_style_119_front_left',
+  'rim_style_119_front_right',
+  'rim_style_119_rear_left',
+  'rim_style_119_rear_right',
+  'rim_style_135_front_left',
+  'rim_style_135_front_right',
+  'rim_style_135_rear_left',
+  'rim_style_135_rear_right',
+  'rim_style_166_front_left',
+  'rim_style_166_front_right',
+  'rim_style_166_rear_left',
+  'rim_style_166_rear_right',
 ]

@@ -13,11 +13,13 @@ import {
   ALL_SIDE_VENT_NODES,
   PAINT_TARGET_NODES,
   SECONDARY_COLOR_NODES,
+  CALIPER_NODES,
   INTERIOR_TRIM_NODES,
   WINDOW_TINT_NODES,
   TINT_LEVELS,
   BODY_MATERIAL_NAMES,
   RIM_MATERIAL_NAMES,
+  RIDE_HEIGHT_FIXED_NODES,
 } from '../../data/slots'
 
 /** Check if a material name contains any of the target substrings */
@@ -125,6 +127,9 @@ export default function E46Model() {
   const { scene } = useGLTF('/models/e46.glb')
   const glassFixed = useRef(false)
 
+  /** Stores the original Y position of each fixed node, captured once */
+  const originalPositions = useRef<Map<string, number>>(new Map())
+
   // Subscribe to all relevant store values
   const frontBumper = useBuildStore((s) => s.frontBumper)
   const frontLip = useBuildStore((s) => s.frontLip)
@@ -139,6 +144,7 @@ export default function E46Model() {
   const paintColor = useBuildStore((s) => s.paintColor)
   const secondaryColor = useBuildStore((s) => s.secondaryColor)
   const rimColor = useBuildStore((s) => s.rimColor)
+  const caliperColor = useBuildStore((s) => s.caliperColor)
   const interiorColor = useBuildStore((s) => s.interiorColor)
   const windowTint = useBuildStore((s) => s.windowTint)
   const rideHeight = useBuildStore((s) => s.rideHeight)
@@ -154,6 +160,17 @@ export default function E46Model() {
     })
     return map
   }, [scene])
+
+  // --- Capture original Y positions of fixed nodes (once on mount) ---
+  useEffect(() => {
+    if (originalPositions.current.size > 0) return
+    for (const nodeName of RIDE_HEIGHT_FIXED_NODES) {
+      const node = nodeMap.get(nodeName)
+      if (node) {
+        originalPositions.current.set(nodeName, node.position.y)
+      }
+    }
+  }, [nodeMap])
 
   // --- Glass fix (once on mount) ---
   useEffect(() => {
@@ -289,6 +306,22 @@ export default function E46Model() {
     }
   }, [rimColor, nodeMap])
 
+  // --- Caliper color ---
+  useEffect(() => {
+    for (const nodeName of CALIPER_NODES) {
+      const node = nodeMap.get(nodeName)
+      if (!node) continue
+      node.traverse((child) => {
+        if ((child as Mesh).isMesh && (child as Mesh).material) {
+          const mesh = child as Mesh
+          const mat = (mesh.material as MeshStandardMaterial).clone()
+          mat.color.set(caliperColor)
+          mesh.material = mat
+        }
+      })
+    }
+  }, [caliperColor, nodeMap])
+
   // --- Window tint ---
   useEffect(() => {
     const tint = TINT_LEVELS[windowTint] ?? TINT_LEVELS['none']
@@ -317,11 +350,22 @@ export default function E46Model() {
   }, [windowTint, nodeMap])
 
   // --- Ride height ---
+  // Move the whole group down, then push wheels/tires/calipers back up
+  // so the body drops while rolling stock stays planted at ground level.
   useEffect(() => {
-    if (groupRef.current) {
-      groupRef.current.position.y = rideHeight
+    if (!groupRef.current) return
+
+    // 1. Drop the entire car
+    groupRef.current.position.y = rideHeight
+
+    // 2. Compensate fixed nodes so they stay at their original world position
+    for (const nodeName of RIDE_HEIGHT_FIXED_NODES) {
+      const node = nodeMap.get(nodeName)
+      if (!node) continue
+      const originalY = originalPositions.current.get(nodeName) ?? 0
+      node.position.y = originalY - rideHeight
     }
-  }, [rideHeight])
+  }, [rideHeight, nodeMap])
 
   return (
     <group ref={groupRef}>

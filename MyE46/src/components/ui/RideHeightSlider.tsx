@@ -17,7 +17,7 @@ export default function RideHeightSlider() {
       <input
         type="range"
         className="ride-height-slider"
-        min={-0.1}
+        min={-0.098}
         max={0}
         step={0.005}
         value={rideHeight}

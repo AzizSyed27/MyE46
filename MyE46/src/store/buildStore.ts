@@ -8,6 +8,7 @@ export const DEFAULT_CONFIG: Omit<BuildConfig, 'id' | 'name' | 'notes' | 'create
     paintColor: '#a8a8a8',
     secondaryColor: '#1a1a1a',
     rimColor: '#a8a8a8',
+    caliperColor: '#1a1a1a',
     interiorColor: '#1a1a1a',
     frontBumper: 'front_bumper_stock',
     frontLip: 'none',
@@ -30,6 +31,7 @@ interface BuildStore {
     paintColor: string
     secondaryColor: string
     rimColor: string
+    caliperColor: string
     interiorColor: string
     frontBumper: string
     frontLip: string
@@ -111,6 +113,7 @@ export const useBuildStore = create<BuildStore>()(
             paintColor: state.paintColor,
             secondaryColor: state.secondaryColor,
             rimColor: state.rimColor,
+            caliperColor: state.caliperColor,
             interiorColor: state.interiorColor,
             frontBumper: state.frontBumper,
             frontLip: state.frontLip,
@@ -144,6 +147,7 @@ export const useBuildStore = create<BuildStore>()(
             paintColor: build.paintColor,
             secondaryColor: build.secondaryColor,
             rimColor: build.rimColor,
+            caliperColor: build.caliperColor,
             interiorColor: build.interiorColor,
             frontBumper: build.frontBumper,
             frontLip: build.frontLip,

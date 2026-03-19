@@ -4,6 +4,7 @@ export interface BuildConfig {
     paintColor: string
     secondaryColor: string
     rimColor: string
+    caliperColor: string
     interiorColor: string
     frontBumper: string
     frontLip: string

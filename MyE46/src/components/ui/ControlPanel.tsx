@@ -29,14 +29,25 @@ const PAINT_SWATCHES = [
     ]
 
     const RIM_SWATCHES = [
-    { name: 'Silver', hex: '#a8a8a8' },
-    { name: 'Gunmetal', hex: '#4a4a4a' },
-    { name: 'Gloss Black', hex: '#1a1a1a' },
-    { name: 'Satin Black', hex: '#2c2c2c' },
-    { name: 'Bronze', hex: '#8b7355' },
-    { name: 'Gold', hex: '#c8a96e' },
-    { name: 'Hyper Silver', hex: '#c0c0c0' },
-    { name: 'White', hex: '#e8e8e8' },
+        { name: 'Silver', hex: '#a8a8a8' },
+        { name: 'Gunmetal', hex: '#4a4a4a' },
+        { name: 'Gloss Black', hex: '#1a1a1a' },
+        { name: 'Satin Black', hex: '#2c2c2c' },
+        { name: 'Bronze', hex: '#8b7355' },
+        { name: 'Gold', hex: '#c8a96e' },
+        { name: 'Hyper Silver', hex: '#c0c0c0' },
+        { name: 'White', hex: '#e8e8e8' },
+    ]
+
+    const CALIPER_SWATCHES = [
+        { name: 'Stock Black', hex: '#1a1a1a' },
+        { name: 'Brembo Red', hex: '#cc0000' },
+        { name: 'Racing Yellow', hex: '#d4a017' },
+        { name: 'BMW Blue', hex: '#1c3f6e' },
+        { name: 'Lime Green', hex: '#6fbf40' },
+        { name: 'Orange', hex: '#d45500' },
+        { name: 'Silver', hex: '#a8a8a8' },
+        { name: 'White', hex: '#e8e8e8' },
     ]
 
     const INTERIOR_SWATCHES = [
@@ -71,6 +82,11 @@ const PAINT_SWATCHES = [
                     slot="rimColor"
                     label="Rim Color"
                     swatches={RIM_SWATCHES}
+                />
+                <ColorPicker
+                    slot="caliperColor"
+                    label="Caliper Color"
+                    swatches={CALIPER_SWATCHES}
                 />
                 <ColorPicker
                     slot="interiorColor"
