@@ -1,13 +1,21 @@
 .builds-page {
   min-height: 100vh;
   padding: var(--spacing-xl);
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .builds-header {
   display: flex;
   align-items: center;
-  gap: var(--spacing-lg);
+  justify-content: space-between;
   margin-bottom: var(--spacing-xl);
+}
+
+.builds-header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
 }
 
 .builds-logo {
@@ -17,35 +25,77 @@
   color: var(--color-text);
 }
 
+.builds-header-divider {
+  width: 1px;
+  height: 20px;
+  background-color: var(--color-border);
+}
+
 .builds-title {
   font-size: var(--font-size-xl);
   font-weight: 400;
   color: var(--color-text-secondary);
 }
 
-.builds-content {
+.builds-header-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.builds-header-link {
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-surface);
+  background-color: var(--color-accent);
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition-fast);
+}
+
+.builds-header-link:hover {
+  background-color: var(--color-accent-hover);
+}
+
+.builds-count {
+  font-size: var(--font-size-sm);
+  color: var(--color-muted);
+  margin-bottom: var(--spacing-lg);
+}
+
+.builds-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.builds-empty-state {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: var(--spacing-2xl) 0;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-sm);
 }
 
-.builds-empty {
-  color: var(--color-muted);
+.builds-empty-text {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+}
+
+.builds-empty-subtext {
   font-size: var(--font-size-md);
+  color: var(--color-muted);
 }
 
-.builds-cta {
-  padding: var(--spacing-sm) var(--spacing-lg);
-  background-color: var(--color-accent);
+.builds-empty-cta {
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-xl);
+  font-size: var(--font-size-md);
   color: var(--color-surface);
-  font-size: var(--font-size-sm);
+  background-color: var(--color-accent);
   border-radius: var(--radius-md);
   transition: background-color var(--transition-fast);
 }
 
-.builds-cta:hover {
+.builds-empty-cta:hover {
   background-color: var(--color-accent-hover);
 }

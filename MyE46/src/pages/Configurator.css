@@ -1,9 +1,14 @@
 .configurator {
   display: grid;
   grid-template-columns: 1fr 340px;
+  grid-template-rows: auto 1fr;
   height: 100vh;
   overflow: hidden;
   background-color: var(--color-bg);
+}
+
+.configurator-header {
+  grid-column: 1 / -1;
 }
 
 .configurator-viewport {
@@ -11,29 +16,11 @@
   overflow: hidden;
 }
 
-.configurator-viewport-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  color: var(--color-muted);
-  font-size: var(--font-size-lg);
-}
-
 .configurator-panel {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
   overflow-y: auto;
   background-color: var(--color-surface);
   border-left: 1px solid var(--color-border);
-}
-
-.configurator-panel-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  color: var(--color-muted);
-  font-size: var(--font-size-md);
 }
