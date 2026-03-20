@@ -1,18 +1,25 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import { buildSystemPrompt } from './systemPrompt.js'
-import { dirname, join } from 'path'
+import { dirname, join, resolve } from 'path'
 import { fileURLToPath } from 'url'
-
-const __dirname = dirname(fileURLToPath(import.meta.url))
-
-// Serve built frontend in production
-app.use(express.static(join(__dirname, '..', 'dist')))
+import { existsSync } from 'fs'
+import { buildSystemPrompt } from './systemPrompt.js'
 
 dotenv.config()
 
+const __dirname = dirname(fileURLToPath(import.meta.url))
 const app = express()
 app.use(express.json())
+
+// Resolve dist path
+const distPath = resolve(__dirname, '..', 'dist')
+const cwdDistPath = resolve(process.cwd(), 'dist')
+const finalDistPath = existsSync(distPath) ? distPath : cwdDistPath
+
+console.log('Using dist path:', finalDistPath, '| exists:', existsSync(finalDistPath))
+
+// Serve built frontend in production
+app.use(express.static(finalDistPath))
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY
 const GEMINI_MODEL = 'gemini-2.5-flash'
@@ -136,9 +143,19 @@ app.post('/api/chat', async (req, res) => {
   }
 })
 
-// All non-API routes serve the frontend (SPA fallback)
+// SPA fallback — all non-API routes serve the React app
 app.get('*', (req, res) => {
-  res.sendFile(join(__dirname, '..', 'dist', 'index.html'))
+  const indexPath = join(finalDistPath, 'index.html')
+  if (existsSync(indexPath)) {
+    res.sendFile(indexPath)
+  } else {
+    res.status(500).send(
+      `index.html not found at ${indexPath}\n` +
+      `cwd: ${process.cwd()}\n` +
+      `distPath exists: ${existsSync(distPath)}\n` +
+      `cwdDistPath exists: ${existsSync(cwdDistPath)}`
+    )
+  }
 })
 
 const PORT = process.env.PORT || 3001
