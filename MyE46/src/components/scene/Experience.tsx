@@ -1,8 +1,8 @@
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Environment, ContactShadows } from '@react-three/drei'
-import { Suspense, useState, useEffect, useCallback } from 'react'
+import { CameraControls, Environment, ContactShadows } from '@react-three/drei'
+import { Suspense, useState, useEffect, useCallback, useRef } from 'react'
 import E46Model from './E46Model'
-import Loader from '../ui/Loader'
+import { useCinematicCamera } from '../../hooks/useCinematicCamera'
 
 export default function Experience() {
   const [loaded, setLoaded] = useState(false)
@@ -26,7 +26,7 @@ export default function Experience() {
           <div className="loader-content">
             <h1 className="loader-logo">MyE46</h1>
             <div className="loader-bar-track">
-              <LoaderBar />
+              <div className="loader-bar-fill loader-bar-fill--indeterminate" />
             </div>
             <p className="loader-status">
               {loaded ? 'Preparing scene…' : 'Loading model…'}
@@ -56,21 +56,33 @@ export default function Experience() {
   )
 }
 
-/** Progress bar — reads Drei's useProgress outside the Canvas */
-function LoaderBar() {
-  // We can't use useProgress here since it needs to be outside Canvas
-  // Instead, use a simple indeterminate animation via CSS
-  return <div className="loader-bar-fill loader-bar-fill--indeterminate" />
-}
-
-/** Inner component so we can fire onLoaded after Suspense resolves */
+/** Inner component — renders inside Canvas so Three.js hooks work */
 function SceneContent({ onLoaded }: { onLoaded: () => void }) {
+  // Use any for ref type to avoid version conflicts between drei and camera-controls types
+  const controlsRef = useRef<any>(null)
+
+  // Wire up cinematic camera transitions
+  useCinematicCamera(controlsRef)
+
   useEffect(() => {
     onLoaded()
   }, [onLoaded])
 
+  // Configure smooth transition timing after controls mount
+  useEffect(() => {
+    const controls = controlsRef.current
+    if (!controls) return
+
+    // smoothTime controls how quickly the camera settles after setLookAt
+    controls.smoothTime = 0.8
+
+    // Damping for manual orbit feel
+    controls.draggingSmoothTime = 0.15
+  }, [])
+
   return (
     <>
+      {/* Lighting */}
       <ambientLight intensity={0.4} />
       <directionalLight
         position={[5, 8, 5]}
@@ -84,10 +96,13 @@ function SceneContent({ onLoaded }: { onLoaded: () => void }) {
         intensity={0.4}
       />
 
+      {/* Environment map for realistic reflections */}
       <Environment preset="city" />
 
+      {/* The car model */}
       <E46Model />
 
+      {/* Ground shadow beneath the car */}
       <ContactShadows
         position={[0, -0.49, 0]}
         opacity={0.4}
@@ -96,14 +111,14 @@ function SceneContent({ onLoaded }: { onLoaded: () => void }) {
         far={4}
       />
 
-      <OrbitControls
+      {/* Camera controls — supports both free orbit and programmatic setLookAt */}
+      <CameraControls
+        ref={controlsRef}
         makeDefault
         minPolarAngle={0.2}
         maxPolarAngle={Math.PI / 2.1}
-        minDistance={3}
+        minDistance={2}
         maxDistance={12}
-        enablePan={false}
-        target={[0, 0.5, 0]}
       />
     </>
   )
