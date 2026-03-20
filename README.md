@@ -1,5 +1,5 @@
 # MyE46
-A browser-based 3D BMW E46 build planner for enthusiasts. Drop parts onto a detailed E46 model, dial in colors, set your stance, and ask the built-in AI advisor to build your dream car.
+A browser-based Agentic 3D BMW E46 build planner for enthusiasts. Drop parts onto a detailed E46 model, dial in colors, set your stance, and ask the built-in AI advisor to build your dream car.
 
 <img width="1918" height="989" alt="demo" src="https://github.com/user-attachments/assets/b58b49ff-b16b-44c6-b2b3-79431fcb8fa4" />
 
@@ -87,7 +87,7 @@ When you send a message, the app:
 1. Snapshots your current build state (all colors, parts, ride height)
 2. Sends it to the Express backend along with your message and conversation history
 3. The backend constructs a system prompt containing the full parts catalog with prices, style tags, valid values per slot, and behavioral rules
-4. Streams the response from Gemini 2.0 Flash back to the browser as Server-Sent Events
+4. Streams the response from Gemini 2.5 Flash back to the browser as Server-Sent Events
 5. Parses a JSON config block from the response and auto-applies it via `applyPreset()`
 6. Displays the AI's explanation in the chat panel
  
@@ -173,7 +173,7 @@ public/
 | State | Zustand with persist middleware |
 | Styling | Plain CSS — variables, no frameworks |
 | Routing | React Router v6 |
-| AI model | Gemini 2.0 Flash (Google) |
+| AI model | Gemini 2.5 Flash (Google) |
 | AI features | Streaming SSE, function-style config output, conversation memory, budget constraints |
 | Backend | Express — single proxy route, zero auth |
 | Persistence | localStorage for builds, URL encoding for sharing |
