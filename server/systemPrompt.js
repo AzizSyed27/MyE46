@@ -40,7 +40,7 @@ ${JSON.stringify(validValues, null, 2)}
 - interiorColor: any hex color string
 
 ## RIDE HEIGHT
-- rideHeight: a number from -0.1 (slammed) to 0 (stock). Each 0.01 ≈ 10mm drop.
+- rideHeight: a number from -0.098 (slammed) to 0 (stock). Each 0.01 ≈ 10mm drop.
 
 ## WINDOW TINT
 - Valid values: "none", "70", "50", "35", "15", "5"
