@@ -35,7 +35,7 @@ There are three types of slots:
 
 | Slot type | How it works | Example |
 |-----------|-------------|---------|
-| **Single-node** | One node per option, toggle by name | `front_bumper_stock`, `front_bumper_m3` |
+| **Single-node** | One node per option, toggle by name | `front_lip`, `spolier_ducktail` |
 | **Paired** | Two nodes toggle together | `left_mirror_m3` + `right_mirror_m3` |
 | **Quad** | Four nodes toggle as a set | All four `rim_style_37_*` wheels |
 
