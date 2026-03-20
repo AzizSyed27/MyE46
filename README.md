@@ -2,7 +2,7 @@
 
 A browser-based 3D build planner for BMW E46 enthusiasts. Customize your E46 in real time, preview visual mods, track your budget, save builds, and compare configurations — all without leaving your browser.
 
-<img width="1919" height="991" alt="demo" src="https://github.com/user-attachments/assets/81ece22f-44d3-4d2d-9a19-2e2e08968ebc" />
+<img width="1918" height="989" alt="demo" src="https://github.com/user-attachments/assets/9a3960ce-a56d-4b4e-b673-80d85981fa4d" />
 
 ## What can it do?
 
