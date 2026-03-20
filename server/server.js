@@ -144,7 +144,7 @@ app.post('/api/chat', async (req, res) => {
 })
 
 // SPA fallback — all non-API routes serve the React app
-app.get('*', (req, res) => {
+app.get('/{*path}', (req, res) => {
   const indexPath = join(finalDistPath, 'index.html')
   if (existsSync(indexPath)) {
     res.sendFile(indexPath)
