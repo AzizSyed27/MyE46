@@ -49,6 +49,9 @@ interface BuildStore {
   // Camera tracking
   lastChangedSlot: string | null
 
+  // Viewer preferences
+  environment: string
+
   // Saved builds
   savedBuilds: BuildConfig[]
 
@@ -63,6 +66,9 @@ interface BuildStore {
 
   // Actions — camera tracking
   clearLastChangedSlot: () => void
+
+  // Actions — viewer preferences
+  setEnvironment: (id: string) => void
 
   // Actions — saved build CRUD
   saveBuild: (name: string, notes?: string) => string
@@ -95,6 +101,8 @@ export const useBuildStore = create<BuildStore>()(
 
       lastChangedSlot: null,
 
+      environment: 'studio',
+
       savedBuilds: [],
 
       setSlot: (key, value) => {
@@ -111,6 +119,10 @@ export const useBuildStore = create<BuildStore>()(
 
       clearLastChangedSlot: () => {
         set({ lastChangedSlot: null })
+      },
+
+      setEnvironment: (id) => {
+        set({ environment: id })
       },
 
       saveBuild: (name, notes = '') => {
@@ -208,6 +220,7 @@ export const useBuildStore = create<BuildStore>()(
       name: 'mye46-build-storage',
       partialize: (state) => {
         // Exclude lastChangedSlot from persistence — it's ephemeral
+        // Keep environment — it's a viewer preference
         const { lastChangedSlot, ...rest } = state
         return rest
       },

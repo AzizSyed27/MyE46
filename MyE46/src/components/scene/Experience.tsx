@@ -1,8 +1,13 @@
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { CameraControls, Environment, ContactShadows } from '@react-three/drei'
-import { Suspense, useState, useEffect, useCallback, useRef } from 'react'
+import { Suspense, useState, useEffect, useCallback, useRef, useMemo } from 'react'
+import { Color } from 'three'
 import E46Model from './E46Model'
+import Loader from '../ui/Loader'
 import { useCinematicCamera } from '../../hooks/useCinematicCamera'
+import { useBuildStore } from '../../store/buildStore'
+import { ENVIRONMENT_PRESETS } from '../../data/environments'
+import type { LightConfig, EnvironmentPreset } from '../../data/environments'
 
 export default function Experience() {
   const [loaded, setLoaded] = useState(false)
@@ -26,7 +31,7 @@ export default function Experience() {
           <div className="loader-content">
             <h1 className="loader-logo">MyE46</h1>
             <div className="loader-bar-track">
-              <div className="loader-bar-fill loader-bar-fill--indeterminate" />
+               <Loader />
             </div>
             <p className="loader-status">
               {loaded ? 'Preparing scene…' : 'Loading model…'}
@@ -46,7 +51,6 @@ export default function Experience() {
           antialias: true,
           alpha: false,
         }}
-        style={{ background: '#f5f0e8' }}
       >
         <Suspense fallback={null}>
           <SceneContent onLoaded={handleLoaded} />
@@ -56,13 +60,87 @@ export default function Experience() {
   )
 }
 
+/** Renders a single light from a LightConfig definition */
+function SceneLight({ config, index }: { config: LightConfig; index: number }) {
+  switch (config.type) {
+    case 'ambient':
+      return (
+        <ambientLight
+          key={`ambient-${index}`}
+          intensity={config.intensity}
+          color={config.color}
+        />
+      )
+    case 'directional':
+      return (
+        <directionalLight
+          key={`dir-${index}`}
+          position={config.position}
+          intensity={config.intensity}
+          color={config.color}
+          castShadow={config.castShadow ?? false}
+          shadow-mapSize-width={1024}
+          shadow-mapSize-height={1024}
+        />
+      )
+    case 'spot':
+      return (
+        <spotLight
+          key={`spot-${index}`}
+          position={config.position}
+          intensity={config.intensity}
+          color={config.color}
+          castShadow={config.castShadow ?? false}
+          angle={config.angle ?? 0.5}
+          penumbra={config.penumbra ?? 0.5}
+          distance={config.distance ?? 20}
+          shadow-mapSize-width={1024}
+          shadow-mapSize-height={1024}
+        />
+      )
+    case 'point':
+      return (
+        <pointLight
+          key={`point-${index}`}
+          position={config.position}
+          intensity={config.intensity}
+          color={config.color}
+          distance={config.distance ?? 10}
+        />
+      )
+    default:
+      return null
+  }
+}
+
+/** Smoothly transitions the scene background color */
+function AnimatedBackground({ targetColor }: { targetColor: string }) {
+  const { scene } = useThree()
+  const currentColor = useRef(new Color(targetColor))
+  const target = useMemo(() => new Color(targetColor), [targetColor])
+
+  useEffect(() => {
+    scene.background = currentColor.current
+  }, [scene])
+
+  useFrame(() => {
+    currentColor.current.lerp(target, 0.05)
+    scene.background = currentColor.current
+  })
+
+  return null
+}
+
 /** Inner component — renders inside Canvas so Three.js hooks work */
 function SceneContent({ onLoaded }: { onLoaded: () => void }) {
-  // Use any for ref type to avoid version conflicts between drei and camera-controls types
   const controlsRef = useRef<any>(null)
 
   // Wire up cinematic camera transitions
   useCinematicCamera(controlsRef)
+
+  // Read environment from store
+  const environmentId = useBuildStore((s) => s.environment)
+  const envPreset: EnvironmentPreset = ENVIRONMENT_PRESETS[environmentId] ?? ENVIRONMENT_PRESETS.studio
 
   useEffect(() => {
     onLoaded()
@@ -72,46 +150,39 @@ function SceneContent({ onLoaded }: { onLoaded: () => void }) {
   useEffect(() => {
     const controls = controlsRef.current
     if (!controls) return
-
-    // smoothTime controls how quickly the camera settles after setLookAt
     controls.smoothTime = 0.8
-
-    // Damping for manual orbit feel
     controls.draggingSmoothTime = 0.15
   }, [])
 
   return (
     <>
-      {/* Lighting */}
-      <ambientLight intensity={0.4} />
-      <directionalLight
-        position={[5, 8, 5]}
-        intensity={1.2}
-        castShadow
-        shadow-mapSize-width={1024}
-        shadow-mapSize-height={1024}
-      />
-      <directionalLight
-        position={[-3, 4, -4]}
-        intensity={0.4}
+      {/* Animated background color */}
+      <AnimatedBackground targetColor={envPreset.backgroundColor} />
+
+      {/* Environment map for reflections */}
+      <Environment
+        preset={envPreset.hdri}
+        environmentIntensity={envPreset.hdriIntensity}
       />
 
-      {/* Environment map for realistic reflections */}
-      <Environment preset="city" />
+      {/* Dynamic lights from preset */}
+      {envPreset.lights.map((light, i) => (
+        <SceneLight key={`${envPreset.id}-light-${i}`} config={light} index={i} />
+      ))}
 
       {/* The car model */}
       <E46Model />
 
-      {/* Ground shadow beneath the car */}
+      {/* Ground shadow */}
       <ContactShadows
-        position={[0, -0.49, 0]}
+        position={[0, -0.01, 0]}
         opacity={0.4}
         scale={12}
         blur={2.5}
         far={4}
       />
 
-      {/* Camera controls — supports both free orbit and programmatic setLookAt */}
+      {/* Camera controls */}
       <CameraControls
         ref={controlsRef}
         makeDefault

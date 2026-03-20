@@ -15,6 +15,7 @@
   align-items: center;
   justify-content: center;
   transition: background-color var(--transition-fast), transform var(--transition-fast);
+  margin-top: 50px;
 }
 
 .ai-panel-toggle:hover {
