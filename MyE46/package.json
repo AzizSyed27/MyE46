@@ -3,12 +3,16 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "server": "node server/server.js",
+    "dev:all": "concurrently \"npm run server\" \"npm run dev\"",
+    "build": "tsc && vite build",
     "preview": "vite preview",
-    "server": "node server/server.js"
+    "start": "node server/server.js"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
