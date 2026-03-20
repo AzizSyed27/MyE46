@@ -352,8 +352,9 @@
   letter-spacing: 0.02em;
 }
 
+
 /* ============================================
-   Responsive
+   Desktop Responsive (1024px)
    ============================================ */
 @media (max-width: 1024px) {
   .landing-split--left {
@@ -369,8 +370,45 @@
   }
 }
 
+/* ============================================
+   Mobile (768px)
+   ============================================ */
 @media (max-width: 768px) {
-  /* On mobile, splits stack — card centered, car behind */
+  /* Nav */
+  .landing-nav {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .landing-nav-logo {
+    font-size: var(--font-size-md);
+  }
+
+  .landing-nav-links {
+    gap: var(--spacing-xs);
+  }
+
+  .landing-nav-link {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-xs);
+  }
+
+  .landing-nav-cta {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-xs);
+  }
+
+  /* Sections — reduce padding */
+  .landing-section {
+    min-height: 90vh;
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+
+  /* Kill the split layout — everything stacks */
+  .landing-split {
+    display: flex;
+    width: 100%;
+  }
+
   .landing-split--left,
   .landing-split--right {
     padding-left: 0;
@@ -378,31 +416,53 @@
     justify-content: center;
   }
 
-  .landing-hero-card,
-  .landing-final-card {
+  /* ---- HERO: model on top, card at bottom ---- */
+  .landing-section--hero {
+    justify-content: flex-end;
+    padding-top: 60px;
+    padding-bottom: var(--spacing-xl);
+  }
+
+  .landing-hero-card {
     text-align: center;
-    max-width: 420px;
-    padding: var(--spacing-lg);
-    margin: 0 var(--spacing-md);
-    background-color: rgba(245, 240, 232, 0.7);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(214, 207, 196, 0.4);
-    border-radius: var(--radius-xl);
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.06);
-  }
-
-  .landing-hero-actions {
-    justify-content: center;
-  }
-
-  .landing-subtitle {
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
   }
 
   .landing-title-line {
     font-size: var(--font-size-2xl);
+  }
+
+  .landing-subtitle {
+    font-size: var(--font-size-sm);
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .landing-hero-actions {
+    justify-content: center;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .landing-cta,
+  .landing-cta-secondary {
+    width: 100%;
+    text-align: center;
+    padding: var(--spacing-md);
+  }
+
+  /* Move scroll hint above the card */
+  .landing-scroll-hint {
+    display: none;
+  }
+
+  /* ---- FEATURES: centered as before ---- */
+  .landing-section--features,
+  .landing-section--features-bottom {
+    justify-content: center;
   }
 
   .landing-features-grid {
@@ -410,43 +470,88 @@
     max-width: 400px;
   }
 
-  .landing-section {
-    min-height: 100vh;
-    padding: var(--spacing-xl) var(--spacing-md);
+  .landing-feature-card {
+    padding: var(--spacing-md);
   }
 
-  .landing-nav {
-    padding: var(--spacing-sm) var(--spacing-md);
+  /* ---- FINAL: model on top, card at bottom ---- */
+  .landing-section--final {
+    justify-content: flex-end;
+    padding-bottom: var(--spacing-lg);
+    gap: var(--spacing-md);
   }
 
-  .landing-nav-links {
-    gap: var(--spacing-xs);
+  .landing-final-card {
+    text-align: center;
+    max-width: 100%;
+    width: 100%;
+    padding: var(--spacing-lg);
+    margin: 0;
+    
   }
 
   .landing-final-title {
     font-size: var(--font-size-2xl);
   }
 
+  .landing-final-subtitle {
+    font-size: var(--font-size-md);
+    margin-bottom: var(--spacing-lg);
+  }
+
   .landing-cta--large {
     padding: var(--spacing-md) var(--spacing-xl);
     font-size: var(--font-size-md);
+    width: 100%;
+  }
+
+  .landing-footer {
+    padding-top: var(--spacing-sm);
+  }
+
+  .landing-credit {
+    font-size: 10px;
   }
 }
 
+/* ============================================
+   Small Mobile (480px)
+   ============================================ */
 @media (max-width: 480px) {
+  .landing-nav {
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+
+  .landing-nav-logo {
+    font-size: var(--font-size-sm);
+  }
+
+  .landing-nav-link {
+    display: none;
+  }
+
   .landing-title-line {
     font-size: var(--font-size-xl);
   }
 
+  .landing-hero-card,
+  .landing-final-card {
+    padding: var(--spacing-md);
+  }
+
   .landing-subtitle {
+    font-size: var(--font-size-xs);
+  }
+
+  .landing-feature-text {
+    font-size: var(--font-size-xs);
+  }
+
+  .landing-final-title {
+    font-size: var(--font-size-xl);
+  }
+
+  .landing-final-subtitle {
     font-size: var(--font-size-sm);
-  }
-
-  .landing-nav-logo {
-    font-size: var(--font-size-md);
-  }
-
-  .landing-hero-actions {
-    flex-direction: column;
   }
 }

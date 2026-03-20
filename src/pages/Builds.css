@@ -99,3 +99,24 @@
 .builds-empty-cta:hover {
   background-color: var(--color-accent-hover);
 }
+
+@media (max-width: 768px) {
+  .builds-page {
+    padding: var(--spacing-md);
+  }
+
+  .builds-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+
+  .builds-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .builds-title {
+    font-size: var(--font-size-lg);
+  }
+}

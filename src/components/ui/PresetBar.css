@@ -38,3 +38,14 @@
   color: var(--color-surface);
   border-color: var(--color-accent);
 }
+
+@media (max-width: 768px) {
+  .preset-bar {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .preset-button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    min-height: 40px;
+  }
+}

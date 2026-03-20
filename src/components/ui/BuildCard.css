@@ -127,3 +127,33 @@
 .build-card-action--primary:hover {
   background-color: var(--color-accent-hover);
 }
+
+@media (max-width: 768px) {
+  .build-card {
+    padding: var(--spacing-md);
+    gap: var(--spacing-sm);
+  }
+
+  .build-card-name {
+    font-size: var(--font-size-md);
+  }
+
+  .build-card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+
+  .build-card-actions {
+    width: 100%;
+  }
+
+  .build-card-action {
+    flex: 1;
+    text-align: center;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

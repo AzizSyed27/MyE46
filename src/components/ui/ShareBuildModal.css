@@ -7,6 +7,7 @@
   background-color: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(4px);
   z-index: 100;
+  padding: var(--spacing-md);
 }
 
 .share-modal {
@@ -98,4 +99,23 @@
 
 .share-modal-close-btn:hover {
   color: var(--color-text);
+}
+
+@media (max-width: 480px) {
+  .share-modal {
+    padding: var(--spacing-lg);
+  }
+
+  .share-modal-url-row {
+    flex-direction: column;
+  }
+
+  .share-modal-url-input {
+    font-size: 16px;
+  }
+
+  .share-modal-copy-btn {
+    width: 100%;
+    text-align: center;
+  }
 }

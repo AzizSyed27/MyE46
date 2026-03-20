@@ -160,3 +160,44 @@
 .compare-empty-cta:hover {
   background-color: var(--color-accent-hover);
 }
+
+@media (max-width: 768px) {
+  .compare-page {
+    padding: var(--spacing-md);
+  }
+
+  .compare-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+
+  .compare-selectors {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+  }
+
+  .compare-vs {
+    text-align: center;
+    padding-bottom: 0;
+  }
+
+  .compare-results {
+    padding: var(--spacing-md);
+  }
+
+  .compare-load-actions {
+    flex-direction: column;
+  }
+
+  .compare-load-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .compare-title {
+    font-size: var(--font-size-lg);
+  }
+}

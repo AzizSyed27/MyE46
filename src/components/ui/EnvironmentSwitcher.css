@@ -64,7 +64,7 @@
 
 @media (max-width: 768px) {
   .env-switcher {
-    bottom: var(--spacing-md);
+    bottom: calc(60px + var(--spacing-md));
     left: var(--spacing-md);
   }
 
@@ -73,8 +73,8 @@
   }
 
   .env-switcher-dot {
-    width: 14px;
-    height: 14px;
+    width: 18px;
+    height: 18px;
   }
 
   .env-switcher-btn {

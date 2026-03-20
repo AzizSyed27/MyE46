@@ -18,45 +18,53 @@ export default function ConfiguratorHeader({ isSharedBuild = false }: Configurat
   return (
     <>
       <header className="configurator-header">
-        <div className="configurator-header-left">
-          <Link to="/" className="configurator-header-logo">MyE46</Link>
-          <span className="configurator-header-divider" />
-          <span className="configurator-header-total">
-            ${total.toLocaleString('en-US')}
-          </span>
-          {isSharedBuild && (
-            <span className="configurator-header-shared-badge">
-              Shared Build
+        <div className="configurator-header-row">
+          <div className="configurator-header-left">
+            <Link to="/" className="configurator-header-logo">MyE46</Link>
+            <span className="configurator-header-divider" />
+            <span className="configurator-header-total">
+              ${total.toLocaleString('en-US')}
             </span>
-          )}
+            {isSharedBuild && (
+              <span className="configurator-header-shared-badge">
+                Shared
+              </span>
+            )}
+          </div>
+
+          <nav className="configurator-header-nav">
+            <Link to="/builds" className="configurator-header-link">
+              Builds
+            </Link>
+            <Link to="/compare" className="configurator-header-link">
+              Compare
+            </Link>
+          </nav>
         </div>
 
-        <nav className="configurator-header-actions">
-          <Link to="/builds" className="configurator-header-link">
-            Builds
-          </Link>
-          <Link to="/compare" className="configurator-header-link">
-            Compare
-          </Link>
+        <div className="configurator-header-actions">
           <button
-            className="configurator-header-btn configurator-header-btn--secondary"
+            className="configurator-header-btn configurator-header-btn--reset"
             onClick={resetBuild}
+            title="Reset build"
           >
-            Reset
+            <span className="configurator-header-btn-icon">↺</span>
+            <span className="configurator-header-btn-text">Reset</span>
           </button>
           <button
             className="configurator-header-btn configurator-header-btn--secondary"
             onClick={() => setShowShareModal(true)}
           >
-            Share
+            <span className="configurator-header-btn-icon">↗</span>
+            <span className="configurator-header-btn-text">Share</span>
           </button>
           <button
             className="configurator-header-btn configurator-header-btn--primary"
             onClick={() => setShowSaveModal(true)}
           >
-            {isSharedBuild ? 'Clone to My Builds' : 'Save Build'}
+            {isSharedBuild ? 'Clone' : 'Save'}
           </button>
-        </nav>
+        </div>
       </header>
 
       {showSaveModal && (

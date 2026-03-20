@@ -78,3 +78,20 @@
   font-family: monospace;
   letter-spacing: 0.02em;
 }
+
+@media (max-width: 768px) {
+  .color-picker {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .color-picker-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+
+  .color-swatch {
+    width: 32px;
+    height: 32px;
+  }
+}

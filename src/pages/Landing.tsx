@@ -40,7 +40,7 @@ export default function Landing() {
             {savedBuilds.length > 0 && (
               <>
                 <Link to="/builds" className="landing-nav-link">
-                  Builds ({savedBuilds.length})
+                  Builds 
                 </Link>
                 {savedBuilds.length >= 2 && (
                   <Link to="/compare" className="landing-nav-link">
@@ -53,7 +53,7 @@ export default function Landing() {
               className="landing-nav-cta"
               onClick={() => navigate('/configurator')}
             >
-              Open Configurator
+              Configurator
             </button>
             <Link to="https://github.com/AzizSyed27/MyE46" className="landing-nav-link" target="_blank" rel="noopener noreferrer">
               GitHub

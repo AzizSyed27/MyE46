@@ -90,3 +90,342 @@
 .configurator-header-btn--primary:hover {
   background-color: var(--color-accent-hover);
 }
+
+/* ============================================
+   Desktop Header
+   ============================================ */
+.configurator-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-lg);
+  height: 56px;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  z-index: 20;
+}
+
+/* On desktop, row and actions sit side by side */
+.configurator-header-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.configurator-header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.configurator-header-logo {
+  font-size: var(--font-size-lg);
+  font-family: var(--font-primary);
+  letter-spacing: 0.05em;
+  color: var(--color-text);
+}
+
+.configurator-header-divider {
+  width: 1px;
+  height: 20px;
+  background-color: var(--color-border);
+}
+
+.configurator-header-total {
+  font-size: var(--font-size-md);
+  color: var(--color-accent);
+  letter-spacing: 0.02em;
+}
+
+.configurator-header-shared-badge {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface-alt);
+  padding: 2px var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.configurator-header-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.configurator-header-link {
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-primary);
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-md);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.configurator-header-link:hover {
+  color: var(--color-text);
+  background-color: var(--color-surface-alt);
+}
+
+.configurator-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.configurator-header-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-primary);
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.configurator-header-btn-icon {
+  font-size: var(--font-size-md);
+  line-height: 1;
+}
+
+.configurator-header-btn-text {
+  line-height: 1;
+}
+
+.configurator-header-btn--reset {
+  color: var(--color-text-secondary);
+  background-color: transparent;
+}
+
+.configurator-header-btn--reset:hover {
+  color: var(--color-danger);
+  background-color: var(--color-surface-alt);
+}
+
+.configurator-header-btn--secondary {
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface-alt);
+}
+
+.configurator-header-btn--secondary:hover {
+  color: var(--color-text);
+}
+
+.configurator-header-btn--primary {
+  color: var(--color-surface);
+  background-color: var(--color-accent);
+}
+
+.configurator-header-btn--primary:hover {
+  background-color: var(--color-accent-hover);
+}
+
+/* ============================================
+   Desktop Header
+   ============================================ */
+.configurator-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-lg);
+  height: 56px;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  z-index: 20;
+}
+
+/* On desktop, row and actions sit side by side */
+.configurator-header-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.configurator-header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.configurator-header-logo {
+  font-size: var(--font-size-lg);
+  font-family: var(--font-primary);
+  letter-spacing: 0.05em;
+  color: var(--color-text);
+}
+
+.configurator-header-divider {
+  width: 1px;
+  height: 20px;
+  background-color: var(--color-border);
+}
+
+.configurator-header-total {
+  font-size: var(--font-size-md);
+  color: var(--color-accent);
+  letter-spacing: 0.02em;
+}
+
+.configurator-header-shared-badge {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface-alt);
+  padding: 2px var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.configurator-header-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.configurator-header-link {
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-primary);
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-md);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.configurator-header-link:hover {
+  color: var(--color-text);
+  background-color: var(--color-surface-alt);
+}
+
+.configurator-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.configurator-header-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-primary);
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.configurator-header-btn-icon {
+  font-size: var(--font-size-md);
+  line-height: 1;
+}
+
+.configurator-header-btn-text {
+  line-height: 1;
+}
+
+.configurator-header-btn--reset {
+  color: var(--color-text-secondary);
+  background-color: transparent;
+}
+
+.configurator-header-btn--reset:hover {
+  color: var(--color-danger);
+  background-color: var(--color-surface-alt);
+}
+
+.configurator-header-btn--secondary {
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface-alt);
+}
+
+.configurator-header-btn--secondary:hover {
+  color: var(--color-text);
+}
+
+.configurator-header-btn--primary {
+  color: var(--color-surface);
+  background-color: var(--color-accent);
+}
+
+.configurator-header-btn--primary:hover {
+  background-color: var(--color-accent-hover);
+}
+
+/* ============================================
+   Mobile (768px)
+   ============================================ */
+@media (max-width: 768px) {
+  .configurator-header {
+    height: 48px;
+    padding: 0 var(--spacing-sm);
+    gap: var(--spacing-xs);
+  }
+
+  .configurator-header-row {
+    gap: var(--spacing-sm);
+    flex: 1;
+    min-width: 0;
+  }
+
+  .configurator-header-left {
+    gap: var(--spacing-sm);
+    min-width: 0;
+  }
+
+  .configurator-header-logo {
+    font-size: var(--font-size-md);
+    flex-shrink: 0;
+  }
+
+  .configurator-header-divider {
+    height: 14px;
+  }
+
+  .configurator-header-total {
+    font-size: var(--font-size-sm);
+  }
+
+  .configurator-header-shared-badge {
+    display: none;
+  }
+
+  /* Hide nav links on mobile — accessible from landing page */
+  .configurator-header-nav {
+    display: none;
+  }
+
+  /* Compact action buttons */
+  .configurator-header-actions {
+    gap: var(--spacing-xs);
+    flex-shrink: 0;
+  }
+
+  /* Icon-only buttons on mobile */
+  .configurator-header-btn-text {
+    display: none;
+  }
+
+  .configurator-header-btn {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    min-width: 36px;
+    min-height: 36px;
+    justify-content: center;
+  }
+
+  .configurator-header-btn-icon {
+    font-size: var(--font-size-lg);
+  }
+
+  .configurator-header-btn--primary {
+    padding: var(--spacing-xs) var(--spacing-md);
+    font-size: var(--font-size-xs);
+  }
+
+  /* Primary button keeps text since it's the main action */
+  .configurator-header-btn--primary .configurator-header-btn-icon {
+    display: none;
+  }
+}
+

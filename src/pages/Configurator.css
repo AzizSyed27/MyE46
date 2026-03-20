@@ -1,3 +1,6 @@
+/* ============================================
+   Desktop Layout
+   ============================================ */
 .configurator {
   display: grid;
   grid-template-columns: 1fr 340px;
@@ -6,6 +9,7 @@
   overflow: hidden;
   background-color: var(--color-bg);
   transition: grid-template-columns var(--transition-normal);
+  position: relative;
 }
 
 .configurator--ai-open {
@@ -31,20 +35,28 @@
   border-left: 1px solid var(--color-border);
 }
 
-/* When AI panel is closed, the toggle button floats over the viewport */
-.configurator:not(.configurator--ai-open) .ai-panel-toggle {
-  position: absolute;
-  top: var(--spacing-md);
-  left: var(--spacing-md);
+/* Mobile toolbar — hidden on desktop */
+.configurator-mobile-toolbar {
+  display: none;
 }
 
-/* Responsive — collapse AI panel on small screens */
+/* Mobile backdrop — hidden on desktop */
+.configurator-mobile-backdrop {
+  display: none;
+}
+
+/* ============================================
+   Tablet (1100px)
+   ============================================ */
 @media (max-width: 1100px) {
   .configurator--ai-open {
     grid-template-columns: 300px 1fr 300px;
   }
 }
 
+/* ============================================
+   Small Tablet (900px)
+   ============================================ */
 @media (max-width: 900px) {
   .configurator--ai-open {
     grid-template-columns: 280px 1fr;
@@ -53,4 +65,128 @@
   .configurator--ai-open .configurator-panel {
     display: none;
   }
+}
+
+/* ============================================
+   Mobile (768px)
+   ============================================ */
+@media (max-width: 768px) {
+  .configurator {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .configurator--ai-open {
+    grid-template-columns: 1fr;
+  }
+
+  /* Viewport fills the screen */
+  .configurator-viewport {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  /* Controls panel — bottom sheet overlay */
+  .configurator-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 65vh;
+    max-height: 65vh;
+    z-index: 40;
+    border-left: none;
+    border-top: 1px solid var(--color-border);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.15);
+    transform: translateY(100%);
+    transition: transform var(--transition-normal);
+  }
+
+  .configurator-panel--open {
+    transform: translateY(0);
+  }
+
+  /* AI panel — full overlay on mobile */
+  .configurator--ai-open .ai-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 45;
+    border-right: none;
+    border-radius: 0;
+  }
+
+  /* Mobile toolbar */
+  .configurator-mobile-toolbar {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 35;
+    padding: var(--spacing-sm) var(--spacing-md);
+    padding-bottom: max(var(--spacing-sm), env(safe-area-inset-bottom));
+    background-color: rgba(245, 240, 232, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--color-border);
+    gap: var(--spacing-sm);
+  }
+
+  .configurator-mobile-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-family: var(--font-primary);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+  }
+
+  .configurator-mobile-btn--active {
+    background-color: var(--color-accent);
+    color: var(--color-surface);
+    border-color: var(--color-accent);
+  }
+
+  .configurator-mobile-btn-icon {
+    font-size: var(--font-size-xs);
+    font-weight: 400;
+  }
+
+  .configurator-mobile-btn-label {
+    font-size: var(--font-size-xs);
+    letter-spacing: 0.02em;
+  }
+
+  /* Backdrop */
+  .configurator-mobile-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 38;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(2px);
+  }
+
+  /* Hide desktop AI toggle on mobile */
+  .ai-panel-toggle {
+    display: none;
+  }
+
+  /* Adjust environment switcher position above toolbar */
+  .env-switcher {
+    bottom: calc(60px + var(--spacing-md));
+  }
+
+
 }

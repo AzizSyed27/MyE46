@@ -61,3 +61,14 @@
 .slot-option--active .slot-option-price {
   color: var(--color-accent);
 }
+
+@media (max-width: 768px) {
+  .slot-selector {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .slot-option {
+    padding: var(--spacing-sm) var(--spacing-md);
+    min-height: 44px;
+  }
+}
