@@ -1,6 +1,13 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import { buildSystemPrompt } from './systemPrompt.js'
+import { dirname, join } from 'path'
+import { fileURLToPath } from 'url'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
+
+// Serve built frontend in production
+app.use(express.static(join(__dirname, '..', 'dist')))
 
 dotenv.config()
 
@@ -127,6 +134,11 @@ app.post('/api/chat', async (req, res) => {
       res.end()
     }
   }
+})
+
+// All non-API routes serve the frontend (SPA fallback)
+app.get('*', (req, res) => {
+  res.sendFile(join(__dirname, '..', 'dist', 'index.html'))
 })
 
 const PORT = process.env.PORT || 3001
