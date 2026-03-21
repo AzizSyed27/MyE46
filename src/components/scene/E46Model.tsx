@@ -1,6 +1,6 @@
 import { useEffect, useRef, useMemo } from 'react'
 import { useGLTF } from '@react-three/drei'
-import { Group, Mesh, MeshStandardMaterial, Object3D } from 'three'
+import { Group, Mesh, MeshStandardMaterial, MeshPhysicalMaterial, Object3D } from 'three'
 import { useBuildStore } from '../../store/buildStore'
 import {
   SINGLE_SLOTS,
@@ -20,6 +20,7 @@ import {
   RIDE_HEIGHT_FIXED_NODES,
   BODY_MATERIAL_NAMES,
   RIM_MATERIAL_NAMES,
+  PAINT_FINISH_PROPERTIES
 } from '../../data/slots'
 
 // ─── Module-level storage for baked Y positions ─────────────────────
@@ -147,6 +148,7 @@ export default function E46Model() {
   const interiorColor = useBuildStore((s) => s.interiorColor)
   const windowTint = useBuildStore((s) => s.windowTint)
   const rideHeight = useBuildStore((s) => s.rideHeight)
+  const paintFinish = useBuildStore((s) => s.paintFinish)
 
   const togglableNames = useMemo(() => getAllTogglableNames(), [])
 
@@ -238,7 +240,10 @@ export default function E46Model() {
   ])
 
   // --- Primary paint color ---
+  // --- Primary paint color + finish ---
   useEffect(() => {
+    const finish = PAINT_FINISH_PROPERTIES[paintFinish] ?? PAINT_FINISH_PROPERTIES['metallic']
+
     for (const nodeName of PAINT_TARGET_NODES) {
       const node = nodeMap.get(nodeName)
       if (!node) continue
@@ -247,14 +252,23 @@ export default function E46Model() {
           const mesh = child as Mesh
           const mat = mesh.material as MeshStandardMaterial
           if (mat.name && materialMatches(mat.name, BODY_MATERIAL_NAMES)) {
-            const cloned = mat.clone()
-            cloned.color.set(paintColor)
-            mesh.material = cloned
+            // Create a MeshPhysicalMaterial for clearcoat support
+            const physical = new MeshPhysicalMaterial({
+              color: paintColor,
+              roughness: finish.roughness,
+              metalness: finish.metalness,
+              clearcoat: finish.clearcoat,
+              clearcoatRoughness: finish.clearcoatRoughness,
+              envMapIntensity: mat.envMapIntensity,
+            })
+            // Preserve the material name for future matching
+            physical.name = mat.name
+            mesh.material = physical
           }
         }
       })
     }
-  }, [paintColor, nodeMap])
+  }, [paintColor, paintFinish, nodeMap])
 
   // --- Secondary body color (trim / accents) ---
   useEffect(() => {

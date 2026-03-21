@@ -335,3 +335,46 @@ export const RIDE_HEIGHT_FIXED_NODES: string[] = [
   'rim_style_166_rear_left',
   'rim_style_166_rear_right',
 ]
+
+/**
+ * PAINT_FINISH_PROPERTIES — material properties per finish type.
+ * Applied to body paint materials alongside color.
+ * Uses MeshPhysicalMaterial properties for clearcoat support.
+ */
+export const PAINT_FINISH_PROPERTIES: Record<string, {
+  roughness: number
+  metalness: number
+  clearcoat: number
+  clearcoatRoughness: number
+}> = {
+  matte: {
+    roughness: 0.85,
+    metalness: 0.0,
+    clearcoat: 0.0,
+    clearcoatRoughness: 0.0,
+  },
+  satin: {
+    roughness: 0.55,
+    metalness: 0.15,
+    clearcoat: 0.3,
+    clearcoatRoughness: 0.4,
+  },
+  gloss: {
+    roughness: 0.2,
+    metalness: 0.1,
+    clearcoat: 0.8,
+    clearcoatRoughness: 0.1,
+  },
+  metallic: {
+    roughness: 0.25,
+    metalness: 0.85,
+    clearcoat: 1.0,
+    clearcoatRoughness: 0.05,
+  },
+  pearl: {
+    roughness: 0.2,
+    metalness: 0.5,
+    clearcoat: 1.0,
+    clearcoatRoughness: 0.05,
+  },
+}

@@ -7,6 +7,7 @@ export const STYLE_PRESETS: StylePreset[] = [
     description: 'Factory-refined aesthetics with tasteful upgrades. The purist\'s choice.',
     partialConfig: {
       paintColor: '#1c3f6e',
+      paintFinish: 'metallic',
       secondaryColor: '#2a2a2a',
       rimColor: '#c0c0c0',
       caliperColor: '#1a1a1a',
@@ -31,6 +32,7 @@ export const STYLE_PRESETS: StylePreset[] = [
     description: 'Understated presence with modern touches. Turns heads without trying.',
     partialConfig: {
       paintColor: '#1a1a1a',
+      paintFinish: 'satin',
       secondaryColor: '#0d0d0d',
       rimColor: '#a8a8a8',
       caliperColor: '#333333',
@@ -55,6 +57,7 @@ export const STYLE_PRESETS: StylePreset[] = [
     description: 'Bold stance and sharp lines. Built to intimidate on sight.',
     partialConfig: {
       paintColor: '#0d0d0d',
+      paintFinish: 'gloss',
       secondaryColor: '#0d0d0d',
       rimColor: '#1a1a1a',
       caliperColor: '#cc0000',

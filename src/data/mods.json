@@ -56,6 +56,13 @@
         { "id": "badge_330xi", "name": "330xi", "price": 0, "styleTags": [] },
         { "id": "badge_m3", "name": "M3", "price": 0, "styleTags": ["m3", "aggressive", "track"] }
     ],
+    "paintFinish": [
+        { "id": "gloss", "name": "Gloss", "price": 0, "styleTags": ["oem", "stock", "clean"] },
+        { "id": "metallic", "name": "Metallic", "price": 0, "styleTags": ["oem", "clean", "premium"] },
+        { "id": "pearl", "name": "Pearl", "price": 0, "styleTags": ["premium", "clean", "subtle"] },
+        { "id": "satin", "name": "Satin", "price": 0, "styleTags": ["aggressive", "street", "modern"] },
+        { "id": "matte", "name": "Matte", "price": 0, "styleTags": ["aggressive", "track", "stealth"] }
+    ],
     "windowTint": [
         { "id": "none", "name": "No Tint", "price": 0, "styleTags": ["oem", "stock"] },
         { "id": "70", "name": "70% VLT (Light)", "price": 400, "styleTags": ["clean", "subtle"] },

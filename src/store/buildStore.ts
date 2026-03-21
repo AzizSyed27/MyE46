@@ -6,6 +6,7 @@ import mods from '../data/mods.json'
 /** Default values for a fresh build */
 export const DEFAULT_CONFIG: Omit<BuildConfig, 'id' | 'name' | 'notes' | 'createdAt' | 'updatedAt'> = {
   paintColor: '#a8a8a8',
+  paintFinish: 'metallic',
   secondaryColor: '#1a1a1a',
   rimColor: '#a8a8a8',
   caliperColor: '#1a1a1a',
@@ -29,6 +30,7 @@ type SlotKey = keyof typeof DEFAULT_CONFIG
 interface BuildStore {
   // Current build state
   paintColor: string
+  paintFinish: string
   secondaryColor: string
   rimColor: string
   caliperColor: string
@@ -135,6 +137,7 @@ export const useBuildStore = create<BuildStore>()(
           name,
           notes,
           paintColor: state.paintColor,
+          paintFinish: state.paintFinish,
           secondaryColor: state.secondaryColor,
           rimColor: state.rimColor,
           caliperColor: state.caliperColor,
@@ -212,7 +215,8 @@ export const useBuildStore = create<BuildStore>()(
           getPartPrice('spoiler', state.spoiler) +
           getPartPrice('roof', state.roof) +
           getPartPrice('badge', state.badge) +
-          getPartPrice('windowTint', state.windowTint)
+          getPartPrice('windowTint', state.windowTint) + 
+          getPartPrice('paintFinish', state.paintFinish) 
         )
       },
     }),

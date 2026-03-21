@@ -73,6 +73,7 @@ const PAINT_SWATCHES = [
                     label="Primary Body Color"
                     swatches={PAINT_SWATCHES}
                 />
+                <SlotSelector slot="paintFinish" label="Paint Finish" />
                 <ColorPicker
                     slot="secondaryColor"
                     label="Secondary Body Color"

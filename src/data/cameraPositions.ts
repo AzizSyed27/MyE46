@@ -121,6 +121,12 @@ export const CAMERA_ANGLES: Record<string, CameraAngle> = {
     duration: 1.4,
   },
 
+  paintFinish: {
+    position: [4.5, 2.0, 4.5],
+    target: [0, 0.4, 0],
+    duration: 1.4,
+  },
+
   // Preset applied — cinematic hero sweep
   preset: {
     position: [5.0, 2.2, 4.5],
