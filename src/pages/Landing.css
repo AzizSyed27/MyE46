@@ -341,17 +341,55 @@
    ============================================ */
 .landing-footer {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: var(--spacing-xs);
+  justify-content: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-xl);
+  flex-wrap: wrap;
 }
 
-.landing-credit {
+.landing-footer-logo {
+  font-size: var(--font-size-sm);
+  font-family: var(--font-primary);
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+}
+
+.landing-footer-divider {
+  width: 1px;
+  height: 14px;
+  background-color: var(--color-border);
+  flex-shrink: 0;
+}
+
+.landing-footer-text {
   font-size: var(--font-size-xs);
   color: var(--color-muted);
   letter-spacing: 0.02em;
 }
 
+.landing-footer-github {
+  display: flex;
+  align-items: center;
+  color: var(--color-muted);
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.landing-footer-github:hover {
+  color: var(--color-text);
+  transform: scale(1.1);
+}
+
+.landing-footer-link {
+  font-size: var(--font-size-xs);
+  color: var(--color-muted);
+  letter-spacing: 0.02em;
+  transition: color var(--transition-fast);
+}
+
+.landing-footer-link:hover {
+  color: var(--color-accent);
+}
 
 /* ============================================
    Desktop Responsive (1024px)
@@ -510,6 +548,27 @@
   }
 
   .landing-credit {
+    font-size: 10px;
+  }
+
+  .landing-footer {
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .landing-footer-text {
+    font-size: 10px;
+  }
+
+  .landing-footer-logo {
+    font-size: var(--font-size-xs);
+  }
+
+  .landing-footer-divider {
+    height: 10px;
+  }
+
+  .landing-footer-link {
     font-size: 10px;
   }
 }
