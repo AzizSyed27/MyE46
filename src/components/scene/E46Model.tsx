@@ -329,9 +329,16 @@ export default function E46Model() {
             const mesh = child as Mesh
             const mat = mesh.material as MeshStandardMaterial
             if (mat.name && materialMatches(mat.name, RIM_MATERIAL_NAMES)) {
-              const cloned = mat.clone()
-              cloned.color.set(rimColor)
-              mesh.material = cloned
+              const physical = new MeshPhysicalMaterial({
+                color: rimColor,
+                roughness: 0.2,
+                metalness: 0.9,
+                clearcoat: 0.8,
+                clearcoatRoughness: 0.05,
+                envMapIntensity: mat.envMapIntensity,
+              })
+              physical.name = mat.name
+              mesh.material = physical
             }
           }
         })
