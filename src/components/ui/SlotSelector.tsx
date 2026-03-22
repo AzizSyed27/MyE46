@@ -1,4 +1,5 @@
 import { useBuildStore } from '../../store/buildStore'
+import { trackPartChange, trackPaintFinishChange, trackWindowTintChange } from '../../utils/analytics'
 import mods from '../../data/mods.json'
 import './SlotSelector.css'
 
@@ -19,6 +20,18 @@ export default function SlotSelector({ slot, label }: SlotSelectorProps) {
   const setSlot = useBuildStore((s) => s.setSlot)
   const options = (mods as Record<string, PartOption[]>)[slot] ?? []
 
+  const handleSelect = (optionId: string) => {
+    setSlot(slot as any, optionId)
+
+    if (slot === 'paintFinish') {
+      trackPaintFinishChange(optionId)
+    } else if (slot === 'windowTint') {
+      trackWindowTintChange(optionId)
+    } else {
+      trackPartChange(slot, optionId)
+    }
+  }
+
   return (
     <div className="slot-selector">
       <span className="slot-selector-label">{label}</span>
@@ -27,7 +40,7 @@ export default function SlotSelector({ slot, label }: SlotSelectorProps) {
           <button
             key={option.id}
             className={`slot-option ${currentValue === option.id ? 'slot-option--active' : ''}`}
-            onClick={() => setSlot(slot as any, option.id)}
+            onClick={() => handleSelect(option.id)}
           >
             <span className="slot-option-name">{option.name}</span>
             {option.price > 0 && (

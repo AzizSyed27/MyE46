@@ -1,11 +1,11 @@
 import { useBuildStore } from '../../store/buildStore'
+import { trackRideHeightChange } from '../../utils/analytics'
 import './RideHeightSlider.css'
 
 export default function RideHeightSlider() {
   const rideHeight = useBuildStore((s) => s.rideHeight)
   const setSlot = useBuildStore((s) => s.setSlot)
 
-  // Convert world units to display mm (1 unit ≈ 1m, so 0.01 = 10mm)
   const displayMm = Math.round(rideHeight * 1000)
 
   return (
@@ -22,6 +22,8 @@ export default function RideHeightSlider() {
         step={0.005}
         value={rideHeight}
         onChange={(e) => setSlot('rideHeight', parseFloat(e.target.value))}
+        onMouseUp={() => trackRideHeightChange(rideHeight)}
+        onTouchEnd={() => trackRideHeightChange(rideHeight)}
       />
       <div className="ride-height-range-labels">
         <span>Slammed</span>

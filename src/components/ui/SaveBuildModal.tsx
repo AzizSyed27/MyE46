@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useBuildStore } from '../../store/buildStore'
+import { trackBuildSave } from '../../utils/analytics'
 import './SaveBuildModal.css'
 
 interface SaveBuildModalProps {
@@ -10,6 +11,7 @@ export default function SaveBuildModal({ onClose }: SaveBuildModalProps) {
   const [name, setName] = useState('')
   const [notes, setNotes] = useState('')
   const saveBuild = useBuildStore((s) => s.saveBuild)
+  const getTotalPrice = useBuildStore((s) => s.getTotalPrice)
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -28,6 +30,7 @@ export default function SaveBuildModal({ onClose }: SaveBuildModalProps) {
     const trimmed = name.trim()
     if (!trimmed) return
     saveBuild(trimmed, notes.trim())
+    trackBuildSave(trimmed, getTotalPrice())
     onClose()
   }
 

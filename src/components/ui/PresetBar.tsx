@@ -1,9 +1,15 @@
 import { useBuildStore } from '../../store/buildStore'
 import { STYLE_PRESETS } from '../../data/presets'
+import { trackPresetApply } from '../../utils/analytics'
 import './PresetBar.css'
 
 export default function PresetBar() {
   const applyPreset = useBuildStore((s) => s.applyPreset)
+
+  const handleApply = (preset: typeof STYLE_PRESETS[0]) => {
+    applyPreset(preset.partialConfig)
+    trackPresetApply(preset.name)
+  }
 
   return (
     <div className="preset-bar">
@@ -13,7 +19,7 @@ export default function PresetBar() {
           <button
             key={preset.id}
             className="preset-button"
-            onClick={() => applyPreset(preset.partialConfig)}
+            onClick={() => handleApply(preset)}
             title={preset.description}
           >
             {preset.name}

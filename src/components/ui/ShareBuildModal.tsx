@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useBuildStore } from '../../store/buildStore'
 import { buildShareUrl } from '../../utils/buildUrl'
+import { trackBuildShare } from '../../utils/analytics'
 import './ShareBuildModal.css'
 
 interface ShareBuildModalProps {
@@ -30,12 +31,13 @@ export default function ShareBuildModal({ onClose }: ShareBuildModalProps) {
     try {
       await navigator.clipboard.writeText(url)
       setCopied(true)
+      trackBuildShare('copy_link')
       setTimeout(() => setCopied(false), 2000)
     } catch {
-      // Fallback: select the input text
       inputRef.current?.select()
       document.execCommand('copy')
       setCopied(true)
+      trackBuildShare('copy_link')
       setTimeout(() => setCopied(false), 2000)
     }
   }
