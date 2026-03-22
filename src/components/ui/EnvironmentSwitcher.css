@@ -64,7 +64,7 @@
 
 @media (max-width: 768px) {
   .env-switcher {
-    bottom: calc(60px + var(--spacing-md));
+    bottom: calc(100px + var(--spacing-md));
     left: var(--spacing-md);
   }
 
