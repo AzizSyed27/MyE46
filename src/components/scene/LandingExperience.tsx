@@ -1,8 +1,9 @@
-import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { Canvas, useFrame, useThree, invalidate } from '@react-three/fiber'
 import { Environment, ContactShadows } from '@react-three/drei'
-import { Suspense, useRef } from 'react'
+import { Suspense, useRef, useEffect } from 'react'
 import { Vector3 } from 'three'
 import LandingModel from './LandingModel'
+import type { PerformanceTier } from '../../hooks/usePerformanceTier'
 
 /** Desktop keyframes — car framed right for hero, left for final */
 const DESKTOP_KEYFRAMES = [
@@ -31,6 +32,7 @@ const MOBILE_KEYFRAMES = [
   { at: 0.9,  position: [4.5, 1.5, 5.0],    target: [0, 0.5, 0] },
   { at: 1.0,  position: [12.5, 1.5, 5.0],    target: [0, 0.5, 0] },
 ]
+
 
 function lerpArray(
   a: number[],
@@ -85,6 +87,7 @@ function ScrollCamera({
   const targetPos = useRef(new Vector3())
   const targetLook = useRef(new Vector3())
   const currentLook = useRef(new Vector3(0, 0.5, 0))
+  const lastProgress = useRef(scrollProgress)
 
   useFrame(() => {
     const { position, target } = getInterpolatedCamera(scrollProgress, keyframes)
@@ -95,6 +98,13 @@ function ScrollCamera({
     camera.position.lerp(targetPos.current, 0.04)
     currentLook.current.lerp(targetLook.current, 0.04)
     camera.lookAt(currentLook.current)
+
+    // Keep invalidating while camera is still settling
+    const posDiff = camera.position.distanceTo(targetPos.current)
+    if (posDiff > 0.001 || Math.abs(scrollProgress - lastProgress.current) > 0.0001) {
+      invalidate()
+    }
+    lastProgress.current = scrollProgress
   })
 
   return null
@@ -104,19 +114,42 @@ function shouldPauseTurntable(scrollProgress: number): boolean {
   return scrollProgress > 0.25 && scrollProgress < 0.85
 }
 
-interface LandingExperienceProps {
-  scrollProgress: number
+/** Continuous invalidation for turntable rotation */
+function TurntableInvalidator({ paused }: { paused: boolean }) {
+  useFrame(() => {
+    if (!paused) {
+      invalidate()
+    }
+  })
+  return null
 }
 
-export default function LandingExperience({ scrollProgress }: LandingExperienceProps) {
+interface LandingExperienceProps {
+  scrollProgress: number
+  performanceTier: PerformanceTier
+}
+
+export default function LandingExperience({
+  scrollProgress,
+  performanceTier,
+}: LandingExperienceProps) {
   const paused = shouldPauseTurntable(scrollProgress)
 
-  // Determine keyframe set based on screen width
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
   const keyframes = isMobile ? MOBILE_KEYFRAMES : DESKTOP_KEYFRAMES
   const initialPos: [number, number, number] = isMobile
     ? [4.5, 2.2, 5.5]
     : [6.0, 2.0, 6.0]
+
+  // DPR based on performance tier
+  const dpr: [number, number] = performanceTier === 'high'
+    ? [1, 2]
+    : performanceTier === 'medium'
+      ? [1, 1.5]
+      : [1, 1]
+
+  const showShadows = performanceTier !== 'low'
+  const simplified = performanceTier === 'low'
 
   return (
     <Canvas
@@ -127,9 +160,12 @@ export default function LandingExperience({ scrollProgress }: LandingExperienceP
         far: 100,
       }}
       gl={{
-        antialias: true,
+        antialias: performanceTier !== 'low',
         alpha: true,
+        powerPreference: 'default',
       }}
+      dpr={dpr}
+      frameloop="demand"
       style={{
         position: 'fixed',
         top: 0,
@@ -144,32 +180,36 @@ export default function LandingExperience({ scrollProgress }: LandingExperienceP
         <directionalLight
           position={[5, 8, 5]}
           intensity={1.5}
-          castShadow
-          shadow-mapSize-width={1024}
-          shadow-mapSize-height={1024}
+          castShadow={showShadows}
+          shadow-mapSize-width={showShadows ? 512 : 0}
+          shadow-mapSize-height={showShadows ? 512 : 0}
         />
-        <directionalLight
-          position={[-3, 4, -4]}
-          intensity={0.3}
-        />
-        <directionalLight
-          position={[0, 3, -5]}
-          intensity={0.2}
-        />
+        <directionalLight position={[-3, 4, -4]} intensity={0.3} />
+        {performanceTier === 'high' && (
+          <directionalLight position={[0, 3, -5]} intensity={0.2} />
+        )}
 
         <Environment preset="city" />
 
-        <LandingModel paused={paused} rotationSpeed={0.15} />
-
-        <ContactShadows
-          position={[0, 0, 0]}
-          opacity={0.5}
-          scale={12}
-          blur={2.5}
-          far={4}
+        <LandingModel
+          paused={paused}
+          rotationSpeed={0.15}
+          simplified={simplified}
         />
 
+        {showShadows && (
+          <ContactShadows
+            position={[0, 0, 0]}
+            opacity={0.5}
+            scale={12}
+            blur={2.5}
+            far={4}
+            frames={1}
+          />
+        )}
+
         <ScrollCamera scrollProgress={scrollProgress} keyframes={keyframes} />
+        <TurntableInvalidator paused={paused} />
       </Suspense>
     </Canvas>
   )

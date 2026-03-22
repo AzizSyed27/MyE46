@@ -51,6 +51,7 @@ export default function Experience() {
           antialias: true,
           alpha: false,
         }}
+        dpr={[1, 2]}
       >
         <Suspense fallback={null}>
           <SceneContent onLoaded={handleLoaded} />

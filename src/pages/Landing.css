@@ -391,6 +391,16 @@
   color: var(--color-accent);
 }
 
+/* Static fallback for low-end devices — no 3D */
+.landing--static {
+  background: linear-gradient(
+    160deg,
+    var(--color-bg) 0%,
+    var(--color-surface-alt) 40%,
+    var(--color-bg) 100%
+  );
+}
+
 /* ============================================
    Desktop Responsive (1024px)
    ============================================ */
