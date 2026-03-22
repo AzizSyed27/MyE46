@@ -1,6 +1,6 @@
 import { Canvas, useFrame, useThree, invalidate } from '@react-three/fiber'
 import { Environment, ContactShadows } from '@react-three/drei'
-import { Suspense, useRef, useEffect } from 'react'
+import { Suspense, useRef } from 'react'
 import { Vector3 } from 'three'
 import LandingModel from './LandingModel'
 import type { PerformanceTier } from '../../hooks/usePerformanceTier'
