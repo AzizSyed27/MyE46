@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useBuildStore } from '../store/buildStore'
-import { usePerformanceTier } from '../hooks/usePerformanceTier'
+import { usePerformanceTier, canRender3D } from '../hooks/usePerformanceTier'
 import './Landing.css'
 
 // Lazy load the 3D experience — don't block initial paint
@@ -15,12 +15,12 @@ export default function Landing() {
   const [show3D, setShow3D] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
 
-  // Delay 3D loading to let content paint first
+  // Show 3D if the device can render WebGL — tier only controls quality
   useEffect(() => {
-    // Never load 3D on low-end devices
-    const timer = setTimeout(() => setShow3D(true), 150)
+    if (!canRender3D()) return
+    const timer = setTimeout(() => setShow3D(true), 300)
     return () => clearTimeout(timer)
-  }, [performanceTier])
+  }, [])
 
   const handleScroll = useCallback(() => {
     if (!contentRef.current) return
