@@ -1,7 +1,7 @@
 import { useEffect, useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
-import { Group, Mesh, MeshStandardMaterial, Object3D } from 'three'
+import { Group, Mesh, MeshStandardMaterial, MeshPhysicalMaterial, Object3D } from 'three'
 import {
   SINGLE_SLOTS,
   PAIRED_SLOTS,
@@ -183,7 +183,7 @@ export default function LandingModel({ rotationSpeed = 0.15, paused = false }: L
       })
     }
 
-    // --- Paint color ---
+    // --- Paint color (metallic finish) ---
     for (const nodeName of PAINT_TARGET_NODES) {
       const node = nodeMap.get(nodeName)
       if (!node) continue
@@ -192,9 +192,16 @@ export default function LandingModel({ rotationSpeed = 0.15, paused = false }: L
           const mesh = child as Mesh
           const mat = mesh.material as MeshStandardMaterial
           if (mat.name && materialMatches(mat.name, BODY_MATERIAL_NAMES)) {
-            const cloned = mat.clone()
-            cloned.color.set(p.paintColor)
-            mesh.material = cloned
+            const physical = new MeshPhysicalMaterial({
+              color: p.paintColor,
+              roughness: 0.25,
+              metalness: 0.85,
+              clearcoat: 1.0,
+              clearcoatRoughness: 0.05,
+              envMapIntensity: mat.envMapIntensity,
+            })
+            physical.name = mat.name
+            mesh.material = physical
           }
         }
       })
@@ -215,6 +222,7 @@ export default function LandingModel({ rotationSpeed = 0.15, paused = false }: L
     }
 
     // --- Rim color ---
+    // --- Rim color (metallic finish) ---
     for (const nodes of Object.values(QUAD_SLOTS)) {
       for (const nodeName of nodes) {
         const node = nodeMap.get(nodeName)
@@ -224,9 +232,16 @@ export default function LandingModel({ rotationSpeed = 0.15, paused = false }: L
             const mesh = child as Mesh
             const mat = mesh.material as MeshStandardMaterial
             if (mat.name && materialMatches(mat.name, RIM_MATERIAL_NAMES)) {
-              const cloned = mat.clone()
-              cloned.color.set(p.rimColor)
-              mesh.material = cloned
+              const physical = new MeshPhysicalMaterial({
+                color: p.rimColor,
+                roughness: 0.2,
+                metalness: 0.9,
+                clearcoat: 0.8,
+                clearcoatRoughness: 0.05,
+                envMapIntensity: mat.envMapIntensity,
+              })
+              physical.name = mat.name
+              mesh.material = physical
             }
           }
         })
