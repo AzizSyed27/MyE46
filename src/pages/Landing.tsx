@@ -17,7 +17,7 @@ export default function Landing() {
 
   // Delay 3D loading to let content paint first
   useEffect(() => {
-    if (performanceTier === 'low') return // Never load 3D on low-end devices
+    // Never load 3D on low-end devices
     const timer = setTimeout(() => setShow3D(true), 150)
     return () => clearTimeout(timer)
   }, [performanceTier])
