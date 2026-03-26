@@ -183,7 +183,7 @@ export default function Landing() {
             <span className="landing-footer-logo">MyE46</span>
             <span className="landing-footer-divider" />
             <a
-              href="https://YOUR_PORTFOLIO_URL.com"
+              href="https://azizsyed-porfolio.onrender.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="landing-footer-link"
@@ -194,7 +194,7 @@ export default function Landing() {
             <span className="landing-footer-text">3D model by Merc_TV (@szymonpasterczyk) - CC Attribution</span>
             <span className="landing-footer-divider" />
             <a
-              href="https://github.com/YOUR_USERNAME/mye46"
+              href="https://github.com/azizsyed27/mye46"
               target="_blank"
               rel="noopener noreferrer"
               className="landing-footer-github"
